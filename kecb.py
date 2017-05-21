@@ -7,36 +7,29 @@ BLOCK_SIZE = 1.0 / 8.0  # Imperial - 1/8"
 UNIT_SCALE = BLOCK_SIZE / UPB
 SCALE = np.array([UNIT_SCALE, UNIT_SCALE])  # [ X, Y ]
 
+def add_scaled_line(layout, scale, offset, start, end):
+
+    layout.add_line(
+        (np.array([start[0],start[1]]) + offset) * scale,
+        (np.array([end[0],end[1]]) + offset) * scale
+    )
+
 def draw_no_contact(layout, scale=SCALE, offset=np.array([0, 0])):
 
-    layout.add_line(
-        (np.array([0, 0]) + offset)*scale,
-        (np.array([5, 0]) + offset)*scale
-    )
-    layout.add_line(
-        (np.array([15, 0]) + offset) * scale,
-        (np.array([20, 0]) + offset) * scale
-    )
+    add_scaled_line(layout, scale, offset, start=(0,0), end=(5,0))
 
-    layout.add_line(
-        (np.array([5, 10]) + offset) * scale,
-        (np.array([5, -10]) + offset) * scale
-    )
+    add_scaled_line(layout, scale, offset, start=(15,0), end=(20,0))
 
-    layout.add_line(
-        (np.array([15, 10]) + offset) * scale,
-        (np.array([15, -10]) + offset) * scale
-    )
+    add_scaled_line(layout, scale, offset, start=(5,10), end=(5,-10))
+
+    add_scaled_line(layout, scale, offset, start=(15,10), end=(15,-10))
 
 
 def draw_nc_contact(layout, scale=SCALE, offset=np.array([0, 0])):
     
     draw_no_contact(layout, scale, offset)
 
-    layout.add_line(
-        (np.array([0, -10]) + offset) * scale,
-        (np.array([20, 10]) + offset) * scale
-    )
+    add_scaled_line(layout, scale, offset, start=(0,-10), end=(20,10))
 
 
 def draw_terminal(layout, scale=SCALE, offset=np.array([0, 0])):
@@ -154,7 +147,7 @@ def draw_solenoid(layout, scale=SCALE, offset=np.array([0, 0])):
 
     draw_inline_terminal(layout, scale, offset)
 
-    draw_magnetic(layout, scale, offset + np.array([1 * UBP, 0]))
+    draw_magnetic(layout, scale, offset + np.array([1 * UPB, 0]))
 
     draw_inline_terminal(layout, scale, offset + np.array([2 * UPB, 0]), left=True, right=True)
 
