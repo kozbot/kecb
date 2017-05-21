@@ -57,16 +57,10 @@ def draw_inline_terminal(layout, scale=SCALE, offset=np.array([0, 0]), left=True
         (np.array([5])) * UNIT_SCALE  # Radius
     )
     if left:
-        layout.add_line(
-            (np.array([0, 0]) + offset)*scale,
-            (np.array([5, 0]) + offset)*scale
-        )
+        add_scaled_line(layout, scale, offset, start=(0,0), end=(5,0))
 
     if right:
-        layout.add_line(
-            (np.array([15, 0]) + offset) * scale,
-            (np.array([20, 0]) + offset) * scale
-        )
+        add_scaled_line(layout, scale, offset, start=(15,0), end=(20,0))
 
     if label:
         layout.add_text(label,dxfattribs={'height' : 10 * UNIT_SCALE})\
@@ -95,7 +89,6 @@ def draw_circuit_breaker(layout, scale=SCALE, offset=np.array([0, 0]), poles=1):
         layout.add_line(
             (np.array([30, 20]) + original_offset)*scale,
             (np.array([30, 20-((poles-1)*2*UPB)]) + original_offset)*scale,
-
         )
 
 
@@ -127,19 +120,13 @@ def draw_thermal_overload(layout, scale=SCALE, offset=np.array([0, 0])):
 
 def draw_magnetic(layout, scale=SCALE, offset=np.array([0, 0])):
 
-    layout.add_line(
-        (np.array([0, 0]) + offset) * scale,
-        (np.array([10, 10]) + offset) * scale
-    )
-
-    layout.add_line(
-        (np.array([10, 10]) + offset) * scale,
-        (np.array([10, -10]) + offset) * scale
-    )
-
-    layout.add_line(
-        (np.array([10, -10]) + offset) * scale,
-        (np.array([20, 0]) + offset) * scale
+    layout.add_polyline2d(
+        [
+            (np.array([0, 0]) + offset) * scale,
+            (np.array([10, 10]) + offset) * scale,
+            (np.array([10, -10]) + offset) * scale,
+            (np.array([20, 0]) + offset) * scale
+        ]
     )
 
 
