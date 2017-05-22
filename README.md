@@ -1,6 +1,6 @@
 # Where are the symbols?
 
-They are generated in the ./dxf folder when the script is run.  I do not want the actual \*.dxf files to be included in the license and I believe this safely bypasses that.
+They are generated in the ./dxf folder when the script is run.  See 'img' folder for examples.
 
 # Design:
 
