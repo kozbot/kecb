@@ -62,7 +62,7 @@ def draw_inline_terminal(layout, scale=SCALE, offset=np.array([0, 0]), left=True
     if right:
         add_scaled_line(layout, scale, offset, start=(15,0), end=(20,0))
 
-    if label:
+    if label is not None:
         layout.add_text(label,dxfattribs={'height' : 10 * UNIT_SCALE})\
             .set_pos((np.array([10, -10]) + offset) * scale,align='MIDDLE_CENTER')
 
@@ -168,9 +168,9 @@ if __name__ == '__main__':
     print("A: Normally Open Contact w/ Inline Terminals")
     dwg = ezdxf.new()
     msp = dwg.modelspace()
-    draw_inline_terminal(msp,label='#')
+    draw_inline_terminal(msp)
     draw_no_contact(msp,offset=np.array([1*UPB, 0]))
-    draw_inline_terminal(msp, offset=np.array([2*UPB, 0]),label='#')
+    draw_inline_terminal(msp, offset=np.array([2*UPB, 0]))
     dwg.saveas('./dxf/A_NO_ITERM.dxf')
 
     print("A: Normally Closed Contact")
@@ -182,9 +182,9 @@ if __name__ == '__main__':
     print("A: Normally Closed Contact w/ Inline Terminals")
     dwg = ezdxf.new()
     msp = dwg.modelspace()
-    draw_inline_terminal(msp,label='#')
+    draw_inline_terminal(msp)
     draw_nc_contact(msp,offset=np.array([1*UPB, 0]))
-    draw_inline_terminal(msp, offset=np.array([2*UPB, 0]),label='#')
+    draw_inline_terminal(msp, offset=np.array([2*UPB, 0]))
     dwg.saveas('./dxf/A_NC_ITERM.dxf')
 
     print("A: Terminal")
