@@ -74,8 +74,12 @@ def draw_inline_terminal(layout, scale=SCALE, offset=np.array([0, 0]), left=True
         add_scaled_line(layout, scale, offset, start=(15, 0), end=(20, 0))
 
     if label is not None:
-        layout.add_text(label, dxfattribs={'height' : 10 * UNIT_SCALE})\
-            .set_pos((np.array([10, -10]) + offset) * scale, align='MIDDLE_CENTER')
+        layout.add_text(
+            label, dxfattribs={'height': 10 * UNIT_SCALE}
+        ).set_pos(
+            (np.array([10, -10]) + offset) * scale,
+            align='MIDDLE_CENTER'
+        )
 
 
 def draw_circuit_breaker(layout, scale=SCALE, offset=np.array([0, 0]), poles=1):
@@ -168,12 +172,28 @@ def draw_thermal_magnetic_breaker(layout, scale=SCALE, offset=np.array([0, 0])):
 
         draw_thermal_overload(layout, scale, offset + np.array([4 * UPB, 0]))
 
+        layout.add_text(
+            (x * 2) + 1, dxfattribs={'height': 10 * UNIT_SCALE}
+        ).set_pos(
+            (np.array([10, -10]) + offset) * scale,
+            align='MIDDLE_CENTER'
+        )
+
+        layout.add_text(
+            (x + 1) * 2, dxfattribs={'height': 10 * UNIT_SCALE}
+        ).set_pos(
+            (np.array([10, -10]) + offset + np.array([7 * UPB, 0])) * scale,
+            align='MIDDLE_CENTER'
+        )
+
 
 if __name__ == '__main__':
     print("Generating Drawings...")
 
     print("Creating '/dxf' Folder")
     os.makedirs("./dxf", exist_ok=True)
+
+    # TODO: Seperate these generations into functional groups
 
     print("A: Normally Open Contact")
     dwg = ezdxf.new()
