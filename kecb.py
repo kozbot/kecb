@@ -78,9 +78,8 @@ class Cursor(object):
             self.add_line((15, 0), (20, 0))
 
         if label is not None:
-            # TODO: Add
-            # self.add_text(self,label,pos,height=10,align='MIDDLE_CENTER')
-            
+            self.add_text(label, (10, -10),
+                          height=10, alignment='MIDDLE_CENTER')
 
     # Chainable methods
 
