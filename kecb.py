@@ -74,9 +74,35 @@ class Cursor(object):
 
     # Chainable methods
 
+    def Move(self, dist):
+
+        mvoff = np.array([dist[0] * self.UPB, dist[1] * self.UPB])
+
+        self.offset = self.offset + mvoff
+
+        return self
+
+    def Left(self, num_blocks=1):
+
+        self.Move((-1, 0))
+
+        return self
+
     def Right(self, num_blocks=1):
 
-        self.offset = self.offset + np.array([num_blocks * self.UPB, 0])
+        self.Move((1, 0))
+
+        return self
+
+    def Up(self, num_blocks=1):
+
+        self.Move((0, 1))
+
+        return self
+
+    def Down(self, num_blocks=1):
+
+        self.Move((0, -1))
 
         return self
 
