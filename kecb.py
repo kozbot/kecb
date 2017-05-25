@@ -74,6 +74,11 @@ class Cursor(object):
 
     # Chainable methods
 
+    def MoveTo(self, pos):
+        self.offset = np.array([pos[0] * self.UPB, pos[1] * self.UPB])
+
+        return self
+
     def Move(self, dist):
 
         mvoff = np.array([dist[0] * self.UPB, dist[1] * self.UPB])
