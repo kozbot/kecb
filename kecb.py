@@ -7,6 +7,11 @@ BLOCK_SIZE = 1.0 / 8.0  # Imperial - 1/8"
 UNIT_SCALE = BLOCK_SIZE / UPB
 SCALE = np.array([UNIT_SCALE, UNIT_SCALE])  # [ X, Y ]
 
+# Disable text when generating images
+# It messes with the extents during autogeneration
+
+DISABLE_TEXT = False
+
 
 class Cursor(object):
     """Cursor"""
@@ -22,6 +27,13 @@ class Cursor(object):
 
     # Utility primitive methods for readability
 
+    def add_circle(self, center, radius):
+
+        self.layout.add_circle(
+            (np.array([center[0], center[1]]) + self.offset) * self.scale,
+            (np.array([radius])) * UNIT_SCALE  # Radius
+        )
+
     def add_line(self, start, end):
 
         self.layout.add_line(
@@ -29,12 +41,15 @@ class Cursor(object):
             (np.array([end[0], end[1]]) + self.offset) * self.scale
         )
 
-    def add_circle(self, center, radius):
+    def add_text(self, label, pos, height=10, alignment='MIDDLE_CENTER'):
 
-        self.layout.add_circle(
-            (np.array([center[0], center[1]]) + self.offset) * self.scale,
-            (np.array([radius])) * UNIT_SCALE  # Radius
-        )
+        if DISABLE_TEXT is not False:
+            self.layout.add_text(
+                label, dxfattribs={'height': height * UNIT_SCALE}
+            ).set_pos(
+                (np.array([pos[0], pos[1]]) + self.offset) * self.scale,
+                align=alignment
+            )
 
     # Drawing methods
 
@@ -65,16 +80,12 @@ class Cursor(object):
         if label is not None:
             # TODO: Add
             # self.add_text(self,label,pos,height=10,align='MIDDLE_CENTER')
-            self.layout.add_text(
-                label, dxfattribs={'height': 10 * UNIT_SCALE}
-            ).set_pos(
-                (np.array([10, -10]) + self.offset) * self.scale,
-                align='MIDDLE_CENTER'
-            )
+            
 
     # Chainable methods
 
     def MoveTo(self, pos):
+
         self.offset = np.array([pos[0] * self.UPB, pos[1] * self.UPB])
 
         return self
