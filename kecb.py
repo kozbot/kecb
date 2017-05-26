@@ -1,6 +1,8 @@
 import numpy as np
 import ezdxf
 import os
+from drawable import Drawable
+import symbol as s
 
 UNITS_PER_BLOCK = UPB = 20.0  # Drawing in a 20x20 grid
 BLOCK_SIZE = 1.0 / 8.0  # Imperial - 1/8"
@@ -24,6 +26,13 @@ class Cursor(object):
         self.scale = scale
         self.offset = offset
         self.UPB = UPB
+
+    def __add__(self, other):
+
+        if isinstance(other, Drawable):
+            other.plot(self.layout, self.scale, self.offset)
+            self.Move(other.plot_offset)
+            return self
 
     # Utility primitive methods for readability
 
@@ -421,3 +430,10 @@ if __name__ == '__main__':
     msp = dwg.modelspace()
     draw_thermal_magnetic_breaker(msp)
     dwg.saveas('./dxf/MP.dxf')
+
+    print("A: Test")
+    dwg = ezdxf.new()
+    msp = dwg.modelspace()
+    cur = Cursor(msp)
+    cur + s.NO() + s.NO()
+    dwg.saveas('./dxf/TEST.dxf')
