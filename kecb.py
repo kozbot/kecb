@@ -74,7 +74,8 @@ class Cursor(object):
 
     def draw_nc_contact(self):
 
-        self.draw_no_contact
+        self.draw_no_contact()
+        self.add_line((0, -10), (20, 10))
 
     def draw_inline_terminal(self, left=True, right=True, label=None):
 
@@ -435,5 +436,5 @@ if __name__ == '__main__':
     dwg = ezdxf.new()
     msp = dwg.modelspace()
     cur = Cursor(msp)
-    cur + s.NO() + s.NO()
+    cur + s.SOL()
     dwg.saveas('./dxf/TEST.dxf')
