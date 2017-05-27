@@ -1,4 +1,7 @@
 from drawable import Drawable
+import ezdxf
+import config as cfg
+import numpy as np
 
 
 class Symbol(Drawable):
@@ -31,7 +34,6 @@ class Symbol(Drawable):
         )
 
     def draw_inline_terminal(self, left=True, right=True, label=None):
-
         self.add_circle((10, 0), 5)
 
         if left:
@@ -43,6 +45,19 @@ class Symbol(Drawable):
         if label is not None:
             self.add_text(label, (10, -10),
                           height=10, alignment='MIDDLE_CENTER')
+
+    def draw_terminal(self):
+        self.add_polyline2d(
+            [
+                (0, 10),
+                (20, 10),
+                (20, -10),
+                (0, -10)
+            ],
+            attr={'flags': ezdxf.const.POLYLINE_CLOSED}
+        )
+
+        self.add_circle((10, 0), 10)
 
 
 class NO(Symbol):
@@ -84,3 +99,14 @@ class SOL(Symbol):  # Need to add inline terminals to finish this
 
     def draw(self):
         self.draw_magnetic()
+
+
+class CB(Symbol):
+    def __init__(self, ):
+        super(CB, self).__init__()
+
+    def draw(self):
+        ITERM(left=True, right=False).sym_plot(self)
+        self.add_arc(center=(30, -5), radius=25, start=37, end=143)
+        ITERM(left=False, right=True)\
+            .sym_plot(self, np.array([2 * cfg.UPB, 0]))

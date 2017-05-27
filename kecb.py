@@ -304,7 +304,8 @@ if __name__ == '__main__':
     print("A: Circuit Breaker - 1 Pole")
     dwg = ezdxf.new()
     msp = dwg.modelspace()
-    draw_circuit_breaker(msp, poles=1)
+    cur = Cursor(msp)
+    cur + s.CB()
     dwg.saveas('./dxf/CB_1P.dxf')
 
     print("A: Circuit Breaker - 2 Pole")

@@ -18,6 +18,20 @@ class Drawable(object):
         self.offset = offset
         self.draw()
 
+    def sym_plot(self, sym, offset=np.array([0, 0])):
+        self.layout = sym.layout
+        self.scale = sym.scale
+        self.offset = sym.offset + offset
+        self.draw()
+
+    def add_arc(self, center, radius, start, end):
+        self.layout.add_arc(
+            (np.array([center[0], center[1]]) + self.offset) * self.scale,
+            (np.array([radius])) * cfg.UNIT_SCALE,
+            start,  # Start Angle (draws CCW)
+            end  # End Angle
+        )
+
     def add_line(self, start, end):
         self.layout.add_line(
             (np.array([start[0], start[1]]) + self.offset) * self.scale,
