@@ -1,4 +1,5 @@
 import numpy as np
+import config as cfg
 
 
 class Drawable(object):
@@ -24,10 +25,19 @@ class Drawable(object):
         )
 
     def add_circle(self, center, radius):
-        raise NotImplementedError()
+        self.layout.add_circle(
+            (np.array([center[0], center[1]]) + self.offset) * self.scale,
+            (np.array([radius])) * cfg.UNIT_SCALE  # Radius
+        )
 
     def add_text(self, label, pos, height=10, alignment='MIDDLE_CENTER'):
-        raise NotImplementedError()
+        if cfg.DISABLE_TEXT is not False:
+            self.layout.add_text(
+                label, dxfattribs={'height': height * cfg.UNIT_SCALE}
+            ).set_pos(
+                (np.array([pos[0], pos[1]]) + self.offset) * self.scale,
+                align=alignment
+            )
 
     def add_polyline2d(self, points, attr={}):
         self.layout.add_polyline2d(

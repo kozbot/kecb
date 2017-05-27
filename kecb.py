@@ -34,63 +34,6 @@ class Cursor(object):
             self.Move(other.plot_offset)
             return self
 
-    # Utility primitive methods for readability
-
-    def add_circle(self, center, radius):
-
-        self.layout.add_circle(
-            (np.array([center[0], center[1]]) + self.offset) * self.scale,
-            (np.array([radius])) * UNIT_SCALE  # Radius
-        )
-
-    def add_line(self, start, end):
-
-        self.layout.add_line(
-            (np.array([start[0], start[1]]) + self.offset) * self.scale,
-            (np.array([end[0], end[1]]) + self.offset) * self.scale
-        )
-
-    def add_text(self, label, pos, height=10, alignment='MIDDLE_CENTER'):
-
-        if DISABLE_TEXT is not False:
-            self.layout.add_text(
-                label, dxfattribs={'height': height * UNIT_SCALE}
-            ).set_pos(
-                (np.array([pos[0], pos[1]]) + self.offset) * self.scale,
-                align=alignment
-            )
-
-    # Drawing methods
-
-    def draw_no_contact(self):
-
-        self.add_line((0, 0), (5, 0))
-
-        self.add_line((15, 0), (20, 0))
-
-        self.add_line((5, 10), (5, -10))
-
-        self.add_line((15, 10), (15, -10))
-
-    def draw_nc_contact(self):
-
-        self.draw_no_contact()
-        self.add_line((0, -10), (20, 10))
-
-    def draw_inline_terminal(self, left=True, right=True, label=None):
-
-        self.add_circle((10, 0), 5)
-
-        if left:
-            self.add_line((0, 0), (5, 0))
-
-        if right:
-            self.add_line((15, 0), (20, 0))
-
-        if label is not None:
-            self.add_text(label, (10, -10),
-                          height=10, alignment='MIDDLE_CENTER')
-
     # Chainable methods
 
     def MoveTo(self, pos):
@@ -128,32 +71,6 @@ class Cursor(object):
     def Down(self, num_blocks=1):
 
         self.Move((0, -1))
-
-        return self
-
-    def NO(self):
-
-        self.draw_no_contact()
-
-        self.Right(1)
-
-        return self
-
-    def NC(self):
-
-        self.draw_no_contact()
-
-        self.add_line((0, -10), (20, 10))
-
-        self.Right(1)
-
-        return self
-
-    def ITERM(self, **kwargs):
-
-        self.draw_inline_terminal(**kwargs)
-
-        self.Right(1)
 
         return self
 
@@ -356,7 +273,7 @@ if __name__ == '__main__':
     dwg = ezdxf.new()
     msp = dwg.modelspace()
     cur = Cursor(msp)
-    cur.ITERM(label='#').NO().ITERM(label='#')
+    cur + s.ITERM(label='#') + s.NO() + s.ITERM(label='#')
     dwg.saveas('./dxf/NO_ITERM.dxf')
 
     print("A: Normally Closed Contact")
@@ -369,7 +286,7 @@ if __name__ == '__main__':
     dwg = ezdxf.new()
     msp = dwg.modelspace()
     cur = Cursor(msp)
-    cur.ITERM(label='#').NC().ITERM(label='#')
+    cur + s.ITERM(label='#') + s.NC() + s.ITERM(label='#')
     dwg.saveas('./dxf/NC_ITERM.dxf')
 
     print("A: Terminal")
@@ -381,7 +298,7 @@ if __name__ == '__main__':
     print("A: Inline Terminal")
     dwg = ezdxf.new()
     cur = Cursor(msp)
-    cur.ITERM(label='#')
+    cur + s.ITERM(label='#')
     dwg.saveas('./dxf/ITERM.dxf')
 
     print("A: Circuit Breaker - 1 Pole")
