@@ -52,7 +52,7 @@ class Drawable(object):
         )
 
     def add_text(self, label, pos, height=10, alignment='MIDDLE_CENTER'):
-        if cfg.DISABLE_TEXT is not False:
+        if cfg.DISABLE_TEXT is not True:
             self.layout.add_text(
                 label, dxfattribs={'height': height * cfg.UNIT_SCALE}
             ).set_pos(
