@@ -66,3 +66,8 @@ class Drawable(object):
                 for point in points],
             attr
         )
+
+    def move(self, dist):
+        mvoff = np.array([dist[0] * cfg.UPB, dist[1] * cfg.UPB])
+
+        self.offset = self.offset + mvoff
