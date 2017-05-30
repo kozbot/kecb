@@ -297,6 +297,7 @@ if __name__ == '__main__':
 
     print("A: Inline Terminal")
     dwg = ezdxf.new()
+    msp = dwg.modelspace()
     cur = Cursor(msp)
     cur + s.ITERM(label='#')
     dwg.saveas('./dxf/ITERM.dxf')
