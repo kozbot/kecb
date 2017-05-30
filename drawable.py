@@ -4,6 +4,8 @@ import config as cfg
 
 class Drawable(object):
 
+    _sym_plot_limit = 0
+
     def __init__(self):
         super(Drawable, self).__init__()
         self.plot_offset = (1, 0)
@@ -19,10 +21,15 @@ class Drawable(object):
         self.draw()
 
     def sym_plot(self, sym, offset=np.array([0, 0])):
+        if Drawable._sym_plot_limit >= 20:
+            raise RecursionError()
+
+        Drawable._sym_plot_limit += 1
         self.layout = sym.layout
         self.scale = sym.scale
         self.offset = sym.offset + offset
         self.draw()
+        Drawable._sym_plot_limit -= 1
 
     def add_arc(self, center, radius, start, end):
         self.layout.add_arc(
