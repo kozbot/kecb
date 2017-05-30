@@ -59,6 +59,12 @@ class Symbol(Drawable):
 
         self.add_circle((10, 0), 10)
 
+    def draw_thermal(self):
+
+        self.layout.add_arc((10, 0), 10, 270, 180)
+
+        self.layout.add_arc((30, 0), 10, 90, 0)
+
 
 class NO(Symbol):
 
@@ -76,6 +82,14 @@ class NC(Symbol):
 
     def draw(self):
         self.draw_nc_contact()
+
+
+class ETERM(Symbol):
+    def __init__(self):
+        super(ETERM, self).__init__()
+
+    def draw(self):
+        self.draw_terminal()
 
 
 class ITERM(Symbol):
@@ -98,7 +112,28 @@ class SOL(Symbol):  # Need to add inline terminals to finish this
         super(SOL, self).__init__()
 
     def draw(self):
+        self.draw_inline_terminal()
+        self.move((1, 0))
         self.draw_magnetic()
+        self.move((1, 0))
+        self.draw_inline_terminal()
+
+
+class OL(Symbol):  # Need to add inline terminals to finish this
+
+    def __init__(self):
+        super(OL, self).__init__()
+
+    def draw(self):
+        ITERM().sym_plot(self)
+
+        self.move((1, 0))
+
+        self.draw_thermal()
+
+        self.move((2, 0))
+
+        ITERM().sym_plot(self)
 
 
 class CB(Symbol):
