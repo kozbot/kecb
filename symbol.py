@@ -61,9 +61,9 @@ class Symbol(Drawable):
 
     def draw_thermal(self):
 
-        self.layout.add_arc((10, 0), 10, 270, 180)
+        self.add_arc((10, 0), 10, 270, 180)
 
-        self.layout.add_arc((30, 0), 10, 90, 0)
+        self.add_arc((30, 0), 10, 90, 0)
 
 
 class NO(Symbol):
@@ -126,9 +126,7 @@ class OL(Symbol):  # Need to add inline terminals to finish this
 
     def draw(self):
         ITERM().sym_plot(self)
-
         self.move((1, 0))
-
         self.draw_thermal()
 
         self.move((2, 0))
@@ -144,4 +142,4 @@ class CB(Symbol):
         ITERM(left=True, right=False).sym_plot(self)
         self.add_arc(center=(30, -5), radius=25, start=37, end=143)
         ITERM(left=False, right=True)\
-            .sym_plot(self, np.array([2 * cfg.UPB, 0]))
+            .sym_plot(self, np.array([[2 * cfg.UPB], [0]]))

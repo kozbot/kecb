@@ -10,13 +10,14 @@ class Cursor(object):
     """Cursor"""
 
     def __init__(self, layout,
-                 scale=cfg.SCALE, offset=np.array([0, 0]),
-                 UPB=cfg.UNITS_PER_BLOCK):
+                 scale=cfg.SCALE, offset=np.array(np.mat('0; 0')),
+                 UPB=cfg.UNITS_PER_BLOCK, origin=np.array(np.mat('0; 0'))):
 
         super(Cursor, self).__init__()
         self.layout = layout
         self.scale = scale
         self.offset = offset
+        self.origin = origin
         self.UPB = UPB
 
     def __add__(self, other):
@@ -36,7 +37,7 @@ class Cursor(object):
 
     def Move(self, dist):
 
-        mvoff = np.array([dist[0] * self.UPB, dist[1] * self.UPB])
+        mvoff = np.array([[dist[0] * self.UPB], [dist[1] * self.UPB]])
 
         self.offset = self.offset + mvoff
 
@@ -68,6 +69,7 @@ class Cursor(object):
 
 
 if __name__ == '__main__':
+
     print("Generating Drawings...")
 
     print("Creating '/dxf' Folder")
