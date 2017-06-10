@@ -69,6 +69,21 @@ class Cursor(object):
         return self
 
 
+def export_multipole(symbols, label, file, minpole=1, maxpole=4,
+                     labelfirst=True, transform=pack_transform()):
+
+    for x in range(minpole, maxpole + 1):
+        print(label + " - " + str(x) + ' Pole')
+        dwg = ezdxf.new()
+        msp = dwg.modelspace()
+        cur = Cursor(msp, transform=transform, poles=x)
+        for sym in symbols:
+            cur = cur + sym
+        fname = file + ('' if labelfirst is False and x == minpole
+                        else '_' + str(x) + 'P')
+        dwg.saveas('./dxf/' + fname + '.dxf')
+
+
 if __name__ == '__main__':
 
     print("Generating Drawings...")
@@ -80,19 +95,10 @@ if __name__ == '__main__':
 
     # TODO: Seperate these generations into functional groups
 
-    print("A: Normally Open Contact")
-    dwg = ezdxf.new()
-    msp = dwg.modelspace()
-    cur = Cursor(msp, transform=t)
-    cur + s.NO()
-    dwg.saveas('./dxf/NO.dxf')
-
-    print("A: Normally Open Contact - 3 Pole")
-    dwg = ezdxf.new()
-    msp = dwg.modelspace()
-    cur = Cursor(msp, transform=t, poles=3)
-    cur + s.NO()
-    dwg.saveas('./dxf/NO_3P.dxf')
+    export_multipole(symbols=[s.NO()],
+                     label="A: Normally Open Contact",
+                     file="NO",
+                     labelfirst=False)
 
     print("A: Normally Open Contact w/ Inline Terminals")
     dwg = ezdxf.new()
@@ -101,12 +107,10 @@ if __name__ == '__main__':
     cur + s.ITERM(label='#') + s.NO() + s.ITERM(label='#')
     dwg.saveas('./dxf/NO_ITERM.dxf')
 
-    print("A: Normally Closed Contact")
-    dwg = ezdxf.new()
-    msp = dwg.modelspace()
-    cur = Cursor(msp, transform=t)
-    cur + s.NC()
-    dwg.saveas('./dxf/NC.dxf')
+    export_multipole(symbols=[s.NC()],
+                     label="A: Normally Closed Contact",
+                     file="NC",
+                     labelfirst=False)
 
     print("A: Normally Closed Contact w/ Inline Terminals")
     dwg = ezdxf.new()
@@ -129,19 +133,13 @@ if __name__ == '__main__':
     cur + s.ITERM(label='#')
     dwg.saveas('./dxf/ITERM.dxf')
 
-    print("A: Circuit Breaker - 1 Pole")
-    dwg = ezdxf.new()
-    msp = dwg.modelspace()
-    cur = Cursor(msp, transform=t)
-    cur + s.CB()
-    dwg.saveas('./dxf/CB_1P.dxf')
+    export_multipole(symbols=[s.CB()],
+                     label="A: Circuit Breaker",
+                     file="CB")
 
-    print("A: Thermal Overload - 1 Pole")
-    dwg = ezdxf.new()
-    msp = dwg.modelspace()
-    cur = Cursor(msp, transform=t)
-    cur + s.OL()
-    dwg.saveas('./dxf/OL_1P.dxf')
+    export_multipole(symbols=[s.OL()],
+                     label="A: Thermal Overload",
+                     file="OL")
 
     print("A: Solenoid")
     dwg = ezdxf.new()
