@@ -1,6 +1,6 @@
-import numpy as np
 import config as cfg
 from affine import Affine
+
 
 class Drawable(object):
 

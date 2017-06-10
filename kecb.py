@@ -1,10 +1,10 @@
-import numpy as np
 import ezdxf
 import os
 from drawable import Drawable
 import symbol as s
 import config as cfg
 from affine import Affine
+
 
 class Cursor(object):
     """Cursor"""
