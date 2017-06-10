@@ -1,6 +1,7 @@
 from drawable import Drawable
 import ezdxf
 import config as cfg
+from utils import btu
 
 
 class Symbol(Drawable):
@@ -112,9 +113,9 @@ class SOL(Symbol):  # Need to add inline terminals to finish this
 
     def draw(self):
         self.draw_inline_terminal()
-        self.move((1, 0))
+        self.move((btu(1), 0))
         self.draw_magnetic()
-        self.move((1, 0))
+        self.move((btu(1), 0))
         self.draw_inline_terminal()
 
 
@@ -125,10 +126,10 @@ class OL(Symbol):  # Need to add inline terminals to finish this
 
     def draw(self):
         ITERM().sym_plot(self)
-        self.move((1, 0))
+        self.move((btu(1), 0))
         self.draw_thermal()
 
-        self.move((2, 0))
+        self.move((btu(2), 0))
 
         ITERM().sym_plot(self)
 

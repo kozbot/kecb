@@ -1,5 +1,6 @@
 import config as cfg
 from affine import Affine
+from utils import btu
 
 
 class Drawable(object):
@@ -8,8 +9,8 @@ class Drawable(object):
 
     def __init__(self):
         super(Drawable, self).__init__()
-        self.plot_offset = (1 * cfg.UPB, 0)
-        self.extents = (1 * cfg.UPB, 1 * cfg.UPB)
+        self.plot_offset = (btu(1), 0)
+        self.extents = (btu(1), btu(1))
 
     def draw(self):
         raise NotImplementedError("draw method not implemented")
@@ -37,9 +38,7 @@ class Drawable(object):
 
     def add_arc(self, center, radius, start, end):
         self.layout.add_arc(
-            # (np.array([center[0], center[1]]) + self.offset) * self.scale,
             self.trans_xy(center),
-            # (np.array([radius])) * cfg.UNIT_SCALE,
             self.trans_scale(radius),
             start,  # Start Angle (draws CCW)
             end  # End Angle
@@ -47,15 +46,12 @@ class Drawable(object):
 
     def add_line(self, start, end):
         self.layout.add_line(
-            # (np.array([start[0], start[1]]) + self.offset) * self.scale,
             self.trans_xy(start),
-            # (np.array([end[0], end[1]]) + self.offset) * self.scale
             self.trans_xy(end)
         )
 
     def add_circle(self, center, radius):
         self.layout.add_circle(
-            # (np.array([center[0], center[1]]) + self.offset) * self.scale,
             self.trans_xy(center),
             self.trans_scale(radius)  # Radius
         )
@@ -63,10 +59,8 @@ class Drawable(object):
     def add_text(self, label, pos, height=10, alignment='MIDDLE_CENTER'):
         if cfg.DISABLE_TEXT is not True:
             self.layout.add_text(
-                # label, dxfattribs={'height': height * cfg.UNIT_SCALE}
                 label, dxfattribs={'height': self.trans_scale(height)}
             ).set_pos(
-                # (np.array([pos[0], pos[1]]) + self.offset) * self.scale,
                 self.trans_xy(pos),
                 align=alignment
             )

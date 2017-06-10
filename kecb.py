@@ -4,6 +4,7 @@ from drawable import Drawable
 import symbol as s
 import config as cfg
 from affine import Affine
+from utils import btu
 
 
 class Cursor(object):
@@ -44,25 +45,25 @@ class Cursor(object):
 
     def Left(self, num_blocks=1):
 
-        self.Move((-1, 0))
+        self.Move((btu(-1), 0))
 
         return self
 
     def Right(self, num_blocks=1):
 
-        self.Move((1, 0))
+        self.Move((btu(1), 0))
 
         return self
 
     def Up(self, num_blocks=1):
 
-        self.Move((0, 1))
+        self.Move((0, btu(1)))
 
         return self
 
     def Down(self, num_blocks=1):
 
-        self.Move((0, -1))
+        self.Move((0, btu(-1)))
 
         return self
 
