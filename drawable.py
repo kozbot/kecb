@@ -1,6 +1,6 @@
 import numpy as np
 import config as cfg
-
+from affine import Affine
 
 class Drawable(object):
 
@@ -14,20 +14,24 @@ class Drawable(object):
     def draw(self):
         raise NotImplementedError("draw method not implemented")
 
-    def plot(self, layout, scale, offset):
+    def plot(self, layout, origin, offset, scale, rotation):
         self.layout = layout
-        self.scale = scale
+        self.origin = origin
         self.offset = offset
+        self.rotation = rotation
+        self.scale = scale
         self.draw()
 
-    def sym_plot(self, sym, offset=np.array(np.mat('0; 0'))):
+    def sym_plot(self, sym, offset=(0, 0)):
         if Drawable._sym_plot_limit >= 20:
             raise RecursionError()
 
         Drawable._sym_plot_limit += 1
         self.layout = sym.layout
         self.scale = sym.scale
-        self.offset = sym.offset + offset
+        self.origin = sym.origin
+        self.rotation = sym.rotation
+        self.offset = sym.offset * Affine.translation(*offset)
         self.draw()
         Drawable._sym_plot_limit -= 1
 
@@ -74,12 +78,15 @@ class Drawable(object):
         )
 
     def move(self, dist):
-        mvoff = np.array([[dist[0] * cfg.UPB], [dist[1] * cfg.UPB]])
-
-        self.offset = self.offset + mvoff
+        self.offset = self.offset * Affine.translation(*dist)
 
     def trans_scale(self, number):
-        return self.scale[0] * number
+        return self.scale * number
 
     def trans_xy(self, point):
-        return (self.scale * np.array([[point[0]], [point[1]]])) + self.offset
+        p = point * Affine.translation(*self.offset)
+        p *= Affine.rotation(self.rotation)
+        p *= Affine.translation(*self.origin)
+        p *= Affine.scale(self.scale)
+
+        return p

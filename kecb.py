@@ -10,21 +10,22 @@ class Cursor(object):
     """Cursor"""
 
     def __init__(self, layout,
-                 scale=cfg.SCALE, offset=np.array(np.mat('0; 0')),
-                 UPB=cfg.UNITS_PER_BLOCK, origin=np.array(np.mat('0; 0'))):
+                 scale=cfg.UNIT_SCALE, offset=(0, 0),
+                 rotation=0, origin=(0, 0)):
 
         super(Cursor, self).__init__()
         self.layout = layout
         self.scale = scale
         self.offset = offset
+        self.rotation = rotation
         self.origin = origin
-        self.UPB = UPB
 
     def __add__(self, other):
 
         if isinstance(other, Drawable):
-            other.plot(self.layout, self.scale, self.offset)
-            self.Move(other.plot_offset)
+            other.plot(self.layout, self.origin, self.offset,
+                       self.scale, self.rotation)
+            # self.Move(other.plot_offset)
             return self
 
     # Chainable methods

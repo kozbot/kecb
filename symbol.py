@@ -142,4 +142,4 @@ class CB(Symbol):
         ITERM(left=True, right=False).sym_plot(self)
         self.add_arc(center=(30, -5), radius=25, start=37, end=143)
         ITERM(left=False, right=True)\
-            .sym_plot(self, np.array([[2 * cfg.UPB], [0]]))
+            .sym_plot(self, (2 * cfg.UPB,0))
