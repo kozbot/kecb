@@ -4,7 +4,7 @@ import os
 from drawable import Drawable
 import symbol as s
 import config as cfg
-
+from affine import Affine
 
 class Cursor(object):
     """Cursor"""
@@ -25,22 +25,20 @@ class Cursor(object):
         if isinstance(other, Drawable):
             other.plot(self.layout, self.origin, self.offset,
                        self.scale, self.rotation)
-            # self.Move(other.plot_offset)
+            self.Move(other.plot_offset)
             return self
 
     # Chainable methods
 
     def MoveTo(self, pos):
 
-        self.offset = np.array([pos[0] * self.UPB, pos[1] * self.UPB])
+        self.offset = pos
 
         return self
 
     def Move(self, dist):
 
-        mvoff = np.array([[dist[0] * self.UPB], [dist[1] * self.UPB]])
-
-        self.offset = self.offset + mvoff
+        self.offset *= Affine.translation(*dist)
 
         return self
 

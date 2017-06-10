@@ -8,8 +8,8 @@ class Drawable(object):
 
     def __init__(self):
         super(Drawable, self).__init__()
-        self.plot_offset = (1, 0)
-        self.extents = (1, 1)
+        self.plot_offset = (1 * cfg.UPB, 0)
+        self.extents = (1 * cfg.UPB, 1 * cfg.UPB)
 
     def draw(self):
         raise NotImplementedError("draw method not implemented")
