@@ -8,3 +8,15 @@ UNIT_SCALE = BLOCK_SIZE / UPB
 # Disable text when generating images
 # It messes with the extents during autogeneration
 DISABLE_TEXT = False
+
+STANDARD_LINETYPES = [
+    ('DOT',
+        'DOTTED 1.0 .  .  .  .  .  .  .  .  .',
+        [UNIT_SCALE * 2, 0.0, -UNIT_SCALE * 2]),
+    ('DOTX2',
+        'DOTTED 2.0 .     .     .     .     .',
+        [UNIT_SCALE * 4, 0.0, -UNIT_SCALE * 4]),
+    ('DOT2 ',
+        'DOTTED 1/2 . . . . . . . . . . . . .',
+        [UNIT_SCALE * 1, 0.0, -UNIT_SCALE * 1]),
+]
