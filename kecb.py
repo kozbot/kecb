@@ -3,7 +3,7 @@ import os
 from drawable import Drawable
 import symbol as s
 from affine import Affine
-from utils import btu, pack_transform
+from utils import btu, pack_transform, new_dwg
 
 
 class Cursor(object):
@@ -74,7 +74,7 @@ def export_multipole(symbols, label, file, minpole=1, maxpole=4,
 
     for x in range(minpole, maxpole + 1):
         print(label + " - " + str(x) + ' Pole')
-        dwg = ezdxf.new()
+        dwg = new_dwg()
         msp = dwg.modelspace()
         cur = Cursor(msp, transform=transform, poles=x)
         for sym in symbols:

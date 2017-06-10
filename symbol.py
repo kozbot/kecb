@@ -1,6 +1,5 @@
 from drawable import Drawable
 import ezdxf
-import config as cfg
 from utils import btu
 
 
@@ -143,3 +142,12 @@ class CB(Symbol):
         self.add_arc(center=(30, -5), radius=25, start=37, end=143)
         ITERM(left=False, right=True)\
             .sym_plot(self, (btu(2), 0))
+
+    def draw_multipole(self):
+        self.draw_multipole_basic()
+
+        self.add_line(
+            (30, 20),
+            (30, 20 + (self.pole_offset[1] * (self.poles - 1))),
+            linetype='DASHED'
+        )

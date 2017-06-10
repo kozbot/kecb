@@ -15,16 +15,18 @@ class Drawable(object):
     def draw(self):
         raise NotImplementedError("draw method not implemented")
 
-    def draw_multipole(self, poles, pole_offset):
-        self.draw_multipole_basic(poles, pole_offset)
+    def draw_multipole(self):
+        self.draw_multipole_basic()
 
-    def draw_multipole_basic(self, poles, pole_offset):
-        px, py = pole_offset
+    def draw_multipole_basic(self):
+        px, py = self.pole_offset
         original_offset = self.offset
-        for i in range(0, poles):
+        for i in range(0, self.poles):
             self.offset =\
                 original_offset * Affine.translation(xoff=px * i, yoff=py * i)
             self.draw()
+
+        self.offset = original_offset
 
     def plot(self, layout, origin, offset, scale, rotation,
              poles, pole_offset):
@@ -38,7 +40,7 @@ class Drawable(object):
         if poles == 1:
             self.draw()
         else:
-            self.draw_multipole(self.poles, self.pole_offset)
+            self.draw_multipole()
 
     def sym_plot(self, sym, offset=(0, 0)):
         if Drawable._sym_plot_limit >= 20:
@@ -61,10 +63,13 @@ class Drawable(object):
             end  # End Angle
         )
 
-    def add_line(self, start, end):
+    def add_line(self, start, end, **atr):
         self.layout.add_line(
             self.trans_xy(start),
-            self.trans_xy(end)
+            self.trans_xy(end),
+            dxfattribs={
+                'linetype': atr.get('linetype', 'BYLAYER')
+            }
         )
 
     def add_circle(self, center, radius):
