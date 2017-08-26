@@ -151,3 +151,69 @@ class CB(Symbol):
             (30, 20 + (self.pole_offset[1] * (self.poles - 1))),
             linetype='DASHED'
         )
+
+
+class GEN_DEV_NC(Symbol):
+
+    def __init__(self):
+        super(GEN_DEV_NC, self).__init__()
+
+    def draw(self):
+        ETERM().sym_plot(self)
+
+        self.add_line(
+            (20, 0),
+            (40, 0)
+        )
+
+        NC().sym_plot(self, offset=(btu(2), 0))
+
+        self.add_line(
+            (60, 0),
+            (80, 0)
+        )
+
+        ETERM().sym_plot(self, offset=(btu(4), 0))
+
+        self.add_polyline2d(
+            [
+                (-10, 20),
+                (110, 20),
+                (110, -20),
+                (-10, -20)
+            ],
+            attr={'flags': ezdxf.const.POLYLINE_CLOSED, 'linetype': 'PHANTOM'}
+        )
+
+
+class GEN_DEV_NO(Symbol):
+
+    def __init__(self):
+        super(GEN_DEV_NC, self).__init__()
+
+    def draw(self):
+        ETERM().sym_plot(self)
+
+        self.add_line(
+            (20, 0),
+            (40, 0)
+        )
+
+        NO().sym_plot(self, offset=(btu(2), 0))
+
+        self.add_line(
+            (60, 0),
+            (80, 0)
+        )
+
+        ETERM().sym_plot(self, offset=(btu(4), 0))
+
+        self.add_polyline2d(
+            [
+                (-10, 20),
+                (110, 20),
+                (110, -20),
+                (-10, -20)
+            ],
+            attr={'flags': ezdxf.const.POLYLINE_CLOSED, 'linetype': 'PHANTOM'}
+        )
