@@ -134,7 +134,7 @@ class OL(Symbol):  # Need to add inline terminals to finish this
 
 
 class CB(Symbol):
-    def __init__(self, ):
+    def __init__(self):
         super(CB, self).__init__()
 
     def draw(self):

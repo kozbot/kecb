@@ -96,11 +96,11 @@ if __name__ == '__main__':
     # TODO: Seperate these generations into functional groups
 
     export_multipole(symbols=[s.NO()],
-                     label="A: Normally Open Contact",
+                     label="Normally Open Contact",
                      file="NO",
                      labelfirst=False)
 
-    print("A: Normally Open Contact w/ Inline Terminals")
+    print("Normally Open Contact w/ Inline Terminals")
     dwg = ezdxf.new()
     msp = dwg.modelspace()
     cur = Cursor(msp, transform=t)
@@ -108,25 +108,25 @@ if __name__ == '__main__':
     dwg.saveas('./dxf/NO_ITERM.dxf')
 
     export_multipole(symbols=[s.NC()],
-                     label="A: Normally Closed Contact",
+                     label="Normally Closed Contact",
                      file="NC",
                      labelfirst=False)
 
-    print("A: Normally Closed Contact w/ Inline Terminals")
+    print("Normally Closed Contact w/ Inline Terminals")
     dwg = ezdxf.new()
     msp = dwg.modelspace()
     cur = Cursor(msp, transform=t)
     cur + s.ITERM(label='#') + s.NC() + s.ITERM(label='#')
     dwg.saveas('./dxf/NC_ITERM.dxf')
 
-    print("A: Terminal")
+    print("Terminal")
     dwg = ezdxf.new()
     msp = dwg.modelspace()
     cur = Cursor(msp, transform=t)
     cur + s.ETERM()
     dwg.saveas('./dxf/ETERM.dxf')
 
-    print("A: Inline Terminal")
+    print("Inline Terminal")
     dwg = ezdxf.new()
     msp = dwg.modelspace()
     cur = Cursor(msp, transform=t)
@@ -134,16 +134,31 @@ if __name__ == '__main__':
     dwg.saveas('./dxf/ITERM.dxf')
 
     export_multipole(symbols=[s.CB()],
-                     label="A: Circuit Breaker",
+                     label="Circuit Breaker",
                      file="CB")
 
     export_multipole(symbols=[s.OL()],
-                     label="A: Thermal Overload",
+                     label="Thermal Overload",
                      file="OL")
 
-    print("A: Solenoid")
+    print("Solenoid")
     dwg = ezdxf.new()
     msp = dwg.modelspace()
     cur = Cursor(msp, transform=t)
     cur + s.SOL()
     dwg.saveas('./dxf/SOL.dxf')
+
+    print("LINETYPES")
+    dwg = new_dwg()
+    msp = dwg.modelspace()
+    ly = 0
+    for lt in dwg.linetypes:
+        msp.add_line(
+            (0, ly),
+            (40, ly),
+            dxfattribs={
+                'linetype': lt.dxf.name
+            }
+        )
+        ly += 20
+    dwg.saveas('./dxf/LINETYPES.dxf')
