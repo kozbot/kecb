@@ -90,7 +90,7 @@ class Drawable(object):
     def add_polyline2d(self, points, attr={}):
         self.layout.add_polyline2d(
             [self.trans_xy(point) for point in points],
-            attr
+            dxfattribs=attr
         )
 
     def move(self, dist):

@@ -1,6 +1,7 @@
 import config
 from collections import namedtuple
 import ezdxf
+from ezdxf.tools import standards as std
 
 
 # Convert blocks to units
@@ -23,8 +24,12 @@ def pack_transform(origin=(0, 0),
 
 def new_dwg():
     dwg = ezdxf.new(dxfversion='AC1015')
-    for linetype in config.STANDARD_LINETYPES:
-        dwg.linetypes.new(name=linetype[0],
-                          dxfattribs={'description': linetype[1],
-                                      'pattern': linetype[2]})
+    for linetype in std.linetypes():
+        try:
+            dwg.linetypes.new(name=linetype[0],
+                              dxfattribs={'description': linetype[1],
+                                          'pattern': linetype[2]})
+        except ValueError as e:
+            pass
+
     return dwg
