@@ -12,11 +12,11 @@ DISABLE_TEXT = False
 STANDARD_LINETYPES = [
     ('DOT',
         'DOTTED 1.0 .  .  .  .  .  .  .  .  .',
-        [UNIT_SCALE * 2, 0.0, -UNIT_SCALE * 2]),
+        [2, 0.0, -2]),
     ('DOTX2',
         'DOTTED 2.0 .     .     .     .     .',
-        [UNIT_SCALE * 4, 0.0, -UNIT_SCALE * 4]),
+        [4, 0.0, -4]),
     ('DOT2 ',
         'DOTTED 1/2 . . . . . . . . . . . . .',
-        [UNIT_SCALE * 1, 0.0, -UNIT_SCALE * 1]),
+        [1, 0.0, -1]),
 ]

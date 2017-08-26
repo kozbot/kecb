@@ -22,11 +22,9 @@ def pack_transform(origin=(0, 0),
 
 
 def new_dwg():
-    dwg = ezdxf.new()
-
+    dwg = ezdxf.new(dxfversion='AC1015')
     for linetype in config.STANDARD_LINETYPES:
         dwg.linetypes.new(name=linetype[0],
                           dxfattribs={'description': linetype[1],
                                       'pattern': linetype[2]})
-
     return dwg

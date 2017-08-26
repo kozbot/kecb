@@ -153,11 +153,13 @@ if __name__ == '__main__':
     msp = dwg.modelspace()
     ly = 0
     for lt in dwg.linetypes:
+        print(lt.dxf.name)
         msp.add_line(
             (0, ly),
             (40, ly),
             dxfattribs={
-                'linetype': lt.dxf.name
+                'linetype': lt.dxf.name,
+                'ltscale': 2.0
             }
         )
         ly += 20
