@@ -65,6 +65,48 @@ class Symbol(Drawable):
         self.add_arc((30, 0), 10, 90, 0)
 
 
+#    Ground Symbols
+
+class PE(Symbol):
+    def __init__(self, ):
+        super(PE, self).__init__()
+
+    def draw(self):
+        self.add_line((0, 0), (0, -12))
+        self.add_line((-6, -12), (6, -12))
+        self.add_line((-4, -14), (4, -14))
+        self.add_line((-2, -16), (2, -16))
+
+
+class SG(Symbol):
+    def __init__(self, ):
+        super(SG, self).__init__()
+
+    def draw(self):
+        self.add_line((0, 0), (0, -12))
+        self.add_polyline2d(
+            [
+                (-6, -12),
+                (6, -12),
+                (0, -18)
+            ],
+            attr={'flags': ezdxf.const.POLYLINE_CLOSED}
+        )
+
+
+class CG(Symbol):
+    def __init__(self, ):
+        super(CG, self).__init__()
+
+    def draw(self):
+        self.add_line((0, 0), (0, -12))
+        self.add_line((-6, -12), (6, -12))
+
+        self.add_line((-6, -12), (-9, -17))
+        self.add_line((0, -12), (-3, -17))
+        self.add_line((6, -12), (3, -17))
+
+
 class NO(Symbol):
 
     def __init__(self):

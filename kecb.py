@@ -183,3 +183,26 @@ if __name__ == '__main__':
         )
         ly += 20
     dwg.saveas('./dxf/LINETYPES.dxf')
+
+    print("*** GROUND SYMBOLS ***")
+
+    print("PE - Protective Earth")
+    dwg = new_dwg()
+    msp = dwg.modelspace()
+    cur = Cursor(msp, transform=t)
+    cur + s.PE()
+    dwg.saveas('./dxf/PE.dxf')
+
+    print("SG - Signal Ground")
+    dwg = new_dwg()
+    msp = dwg.modelspace()
+    cur = Cursor(msp, transform=t)
+    cur + s.SG()
+    dwg.saveas('./dxf/SG.dxf')
+
+    print("CG - Chassis Ground")
+    dwg = new_dwg()
+    msp = dwg.modelspace()
+    cur = Cursor(msp, transform=t)
+    cur + s.CG()
+    dwg.saveas('./dxf/CG.dxf')
