@@ -229,7 +229,9 @@ class GEN_DEV(Symbol):
         self.add_rectangle(
             [
                 (-10, 20),
-                (110, -20)
+                (110, 20),
+                (110, -20),
+                (-10, -20)
             ],
             attr={'flags': ezdxf.const.POLYLINE_CLOSED, 'linetype': 'PHANTOM'}
         )

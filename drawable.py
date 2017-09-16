@@ -94,26 +94,23 @@ class Drawable(object):
         )
 
     def add_rectangle(self, points, attr={}):
-        if(len(points) != 2):
+        if(len(points) < 2):
             raise NotImplementedError(
-                "Only a list of 2 points is currently supported.")
+                "Only a list of 2 or more points supported.")
 
-        p1 = points[0]
-        p2 = points[1]
+        leftmost = min(points, key=lambda x: x[0])
 
-        if(p1[0] == p2[0]):
-            raise ValueError("P1 & P2 X coordinate must not be the same.")
+        rightmost = max(points, key=lambda x: x[0])
 
-        if(p1[1] == p2[1]):
-            raise ValueError("P1 & P2 Y coordinate must not be the same.")
+        topmost = max(points, key=lambda y: y[1])
 
-        leftmost = p1 if p1[0] < p2[0] else p2
+        botmost = min(points, key=lambda y: y[1])
 
-        topmost = p1 if p1[1] > p2[1] else p2
+        if(leftmost[0] == rightmost[0]):
+            raise ValueError("X coordinates must not be the same.")
 
-        rightmost = p1 if p1[0] > p2[0] else p2
-
-        botmost = p1 if p1[1] < p2[1] else p2
+        if(topmost[1] == botmost[1]):
+            raise ValueError("Y coordinates must not be the same.")
 
         # TL = (leftmost[0], topmost[1])
         # TR = (rightmost[0], topmost[1])
