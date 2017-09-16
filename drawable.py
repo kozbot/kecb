@@ -120,13 +120,15 @@ class Drawable(object):
         # BR = (rightmost[0], botmost[1])
         # BL = (leftmost[0], botmost[1])
 
+        plist = [
+            (leftmost[0], topmost[1]),
+            (rightmost[0], topmost[1]),
+            (rightmost[0], botmost[1]),
+            (leftmost[0], botmost[1])
+        ]
+
         self.layout.add_polyline2d(
-            [
-                (leftmost[0], topmost[1]),
-                (rightmost[0], topmost[1]),
-                (rightmost[0], botmost[1]),
-                (leftmost[0], botmost[1])
-            ],
+            [self.trans_xy(point) for point in plist],
             dxfattribs=attr
         )
 

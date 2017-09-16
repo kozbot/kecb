@@ -176,12 +176,10 @@ class GEN_DEV_NC(Symbol):
 
         ETERM().sym_plot(self, offset=(btu(4), 0))
 
-        self.add_polyline2d(
+        self.add_rectangle(
             [
                 (-10, 20),
-                (110, 20),
-                (110, -20),
-                (-10, -20)
+                (110, -20)
             ],
             attr={'flags': ezdxf.const.POLYLINE_CLOSED, 'linetype': 'PHANTOM'}
         )
@@ -209,12 +207,10 @@ class GEN_DEV_NO(Symbol):
 
         ETERM().sym_plot(self, offset=(btu(4), 0))
 
-        self.add_polyline2d(
+        self.add_rectangle(
             [
                 (-10, 20),
-                (110, 20),
-                (110, -20),
-                (-10, -20)
+                (110, -20)
             ],
             attr={'flags': ezdxf.const.POLYLINE_CLOSED, 'linetype': 'PHANTOM'}
         )
