@@ -93,6 +93,43 @@ class Drawable(object):
             dxfattribs=attr
         )
 
+    def add_rectangle(self, points, attr={}):
+        if(len(points) != 2):
+            raise NotImplementedError(
+                "Only a list of 2 points is currently supported.")
+
+        p1 = points[0]
+        p2 = points[1]
+
+        if(p1[0] == p2[0]):
+            raise ValueError("P1 & P2 X coordinate must not be the same.")
+
+        if(p1[1] == p2[1]):
+            raise ValueError("P1 & P2 Y coordinate must not be the same.")
+
+        leftmost = p1 if p1[0] < p2[0] else p2
+
+        topmost = p1 if p1[1] > p2[1] else p2
+
+        rightmost = p1 if p1[0] > p2[0] else p2
+
+        botmost = p1 if p1[1] < p2[1] else p2
+
+        # TL = (leftmost[0], topmost[1])
+        # TR = (rightmost[0], topmost[1])
+        # BR = (rightmost[0], botmost[1])
+        # BL = (leftmost[0], botmost[1])
+
+        self.layout.add_polyline2d(
+            [
+                (leftmost[0], topmost[1]),
+                (rightmost[0], topmost[1]),
+                (rightmost[0], botmost[1]),
+                (leftmost[0], botmost[1])
+            ],
+            dxfattribs=attr
+        )
+
     def move(self, dist):
         self.offset = self.offset * Affine.translation(*dist)
 

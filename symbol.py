@@ -105,7 +105,7 @@ class ITERM(Symbol):
                                   label=self._label)
 
 
-class SOL(Symbol):  # Need to add inline terminals to finish this
+class SOL(Symbol):
 
     def __init__(self):
         super(SOL, self).__init__()
@@ -118,7 +118,7 @@ class SOL(Symbol):  # Need to add inline terminals to finish this
         self.draw_inline_terminal()
 
 
-class OL(Symbol):  # Need to add inline terminals to finish this
+class OL(Symbol):
 
     def __init__(self):
         super(OL, self).__init__()
@@ -134,6 +134,7 @@ class OL(Symbol):  # Need to add inline terminals to finish this
 
 
 class CB(Symbol):
+
     def __init__(self):
         super(CB, self).__init__()
 
@@ -149,7 +150,7 @@ class CB(Symbol):
         self.add_line(
             (30, 20),
             (30, 20 + (self.pole_offset[1] * (self.poles - 1))),
-            linetype='DASHED'
+            linetype='PHANTOM'
         )
 
 
@@ -189,7 +190,7 @@ class GEN_DEV_NC(Symbol):
 class GEN_DEV_NO(Symbol):
 
     def __init__(self):
-        super(GEN_DEV_NC, self).__init__()
+        super(GEN_DEV_NO, self).__init__()
 
     def draw(self):
         ETERM().sym_plot(self)
@@ -214,6 +215,25 @@ class GEN_DEV_NO(Symbol):
                 (110, 20),
                 (110, -20),
                 (-10, -20)
+            ],
+            attr={'flags': ezdxf.const.POLYLINE_CLOSED, 'linetype': 'PHANTOM'}
+        )
+
+
+class GEN_DEV(Symbol):
+
+    def __init__(self):
+        super(GEN_DEV, self).__init__()
+
+    def draw(self):
+        ETERM().sym_plot(self)
+
+        ETERM().sym_plot(self, offset=(btu(4), 0))
+
+        self.add_rectangle(
+            [
+                (-10, 20),
+                (110, -20)
             ],
             attr={'flags': ezdxf.const.POLYLINE_CLOSED, 'linetype': 'PHANTOM'}
         )

@@ -1,4 +1,3 @@
-import ezdxf
 import os
 from drawable import Drawable
 import symbol as s
@@ -148,12 +147,12 @@ if __name__ == '__main__':
     cur + s.SOL()
     dwg.saveas('./dxf/SOL.dxf')
 
-    print("Generic Device NC")
+    print("Generic Device")
     dwg = new_dwg()
     msp = dwg.modelspace()
     cur = Cursor(msp, transform=t)
-    cur + s.GEN_DEV_NC()
-    dwg.saveas('./dxf/GEN_DEV_NC.dxf')
+    cur + s.GEN_DEV()
+    dwg.saveas('./dxf/GEN_DEV.dxf')
 
     print("Generic Device NO")
     dwg = new_dwg()
@@ -162,12 +161,18 @@ if __name__ == '__main__':
     cur + s.GEN_DEV_NO()
     dwg.saveas('./dxf/GEN_DEV_NO.dxf')
 
+    print("Generic Device NC")
+    dwg = new_dwg()
+    msp = dwg.modelspace()
+    cur = Cursor(msp, transform=t)
+    cur + s.GEN_DEV_NC()
+    dwg.saveas('./dxf/GEN_DEV_NC.dxf')
+
     print("LINETYPES")
     dwg = new_dwg()
     msp = dwg.modelspace()
     ly = 0
     for lt in dwg.linetypes:
-        print(lt.dxf.name)
         msp.add_line(
             (0, ly),
             (40, ly),
