@@ -102,3 +102,6 @@ ENV/
 
 # dxf directory
 dxf/
+
+# scrap directory
+scrap/

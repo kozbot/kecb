@@ -94,6 +94,32 @@ class SG(Symbol):
         )
 
 
+class LSW_NC(Symbol):
+    def __init__(self, ):
+        super(LSW_NC, self).__init__()
+
+    def draw(self):
+        self.draw_inline_terminal(right=False)
+
+        # *** CODE USED TO CALCULATE ***
+        # from sympy import Point, Ellipse, Line
+        # from sympy.geometry import Ray
+
+        # te = Ellipse(Point(50, 0), 5, 5)
+        # tans = te.tangent_lines(Point(15, 0))
+        # wall = Line(p1=(55, 0), p2=(55, 10))
+        # r = Ray(p1=tans[1].p1, p2=tans[1].p2)
+
+        # print(r.intersection(wall)[0].evalf())
+
+        self.add_line(
+            (15, 0),
+            (55, 5.77350269189626),
+        )
+        self.move((btu(2), 0))
+        self.draw_inline_terminal(left=False)
+
+
 class CG(Symbol):
     def __init__(self, ):
         super(CG, self).__init__()

@@ -206,3 +206,12 @@ if __name__ == '__main__':
     cur = Cursor(msp, transform=t)
     cur + s.CG()
     dwg.saveas('./dxf/CG.dxf')
+
+    print("*** LIMIT SWITCHES ***")
+
+    print("LSW_NC - Limit Switch Normally Closed")
+    dwg = new_dwg()
+    msp = dwg.modelspace()
+    cur = Cursor(msp, transform=t)
+    cur + s.LSW_NC()
+    dwg.saveas('./dxf/LSW_NC.dxf')
