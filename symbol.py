@@ -120,6 +120,41 @@ class LSW_NC(Symbol):
         self.draw_inline_terminal(left=False)
 
 
+class LSW_NO(Symbol):
+    def __init__(self, ):
+        super(LSW_NO, self).__init__()
+
+    def draw(self):
+        self.draw_inline_terminal(right=False)
+
+        # *** CODE USED TO CALCULATE ***
+        # from sympy import Point, Ellipse, Line
+        # from sympy.geometry import Ray
+        # from mpmath import *
+
+        # te = Ellipse(Point(50, 0), 5, 5)
+        # tans = te.tangent_lines(Point(15, 0))
+        # wall = Line(p1=(55, -30), p2=(55, 30))
+        # r = Ray(p1=tans[1].p1, p2=tans[1].p2)
+
+        # print("NC Switch Line Endpoint:")
+        # print(r.intersection(wall)[0].evalf())
+
+        # nol = tans[0].rotate(radians(-5), Point(15, 0))
+
+        # r = Ray(p1=nol.p1, p2=nol.p2)
+
+        # print("NO Switch Line Endpoint:")
+        # print(r.intersection(wall)[0].evalf())
+
+        self.add_line(
+            (15, 0),
+            (55, -9.39164600762439),
+        )
+        self.move((btu(2), 0))
+        self.draw_inline_terminal(left=False)
+
+
 class CG(Symbol):
     def __init__(self, ):
         super(CG, self).__init__()
