@@ -164,6 +164,38 @@ class LSW_NO_TS(Symbol):
         )
 
 
+class LSW_NC_FS(Symbol):
+    def __init__(self, ):
+        super().__init__()
+
+    def draw(self):
+        LSW_NC().sym_plot(self)
+        self.add_polyline2d(
+            [
+                (30, 2.1650635094611),
+                (30, -20),
+                (40, -20),
+                (30, -10)
+            ]
+        )
+
+
+class LSW_NO_FS(Symbol):
+    def __init__(self, ):
+        super().__init__()
+
+    def draw(self):
+        LSW_NO().sym_plot(self)
+        self.add_polyline2d(
+            [
+                (30, -3.52186725285915),
+                (30, -20),
+                (40, -20),
+                (30, -10)
+            ]
+        )
+
+
 class PB_NO(Symbol):
     def __init__(self, ):
         super().__init__()
