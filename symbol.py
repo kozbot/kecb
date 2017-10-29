@@ -155,6 +155,48 @@ class LSW_NO(Symbol):
         self.draw_inline_terminal(left=False)
 
 
+class PB_NO(Symbol):
+    def __init__(self, ):
+        super(PB_NO, self).__init__()
+
+    def draw(self):
+        self.draw_inline_terminal(right=False)
+
+        self.add_line(
+            (10, -10),
+            (50, -10),
+        )
+
+        self.add_line(
+            (30, -10),
+            (30, 10),
+        )
+
+        self.move((btu(2), 0))
+        self.draw_inline_terminal(left=False)
+
+
+class PB_NC(Symbol):
+    def __init__(self, ):
+        super(PB_NC, self).__init__()
+
+    def draw(self):
+        self.draw_inline_terminal(right=False)
+
+        self.add_line(
+            (10, -5),
+            (50, -5),
+        )
+
+        self.add_line(
+            (30, -5),
+            (30, 10),
+        )
+
+        self.move((btu(2), 0))
+        self.draw_inline_terminal(left=False)
+
+
 class CG(Symbol):
     def __init__(self, ):
         super(CG, self).__init__()

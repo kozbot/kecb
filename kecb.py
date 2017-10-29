@@ -222,3 +222,19 @@ if __name__ == '__main__':
     cur = Cursor(msp, transform=t)
     cur + s.LSW_NO()
     dwg.saveas('./dxf/LSW_NO.dxf')
+
+    print("*** PUSH BUTTONS ***")
+
+    print("PB_NO - Push Button Normally Open")
+    dwg = new_dwg()
+    msp = dwg.modelspace()
+    cur = Cursor(msp, transform=t)
+    cur + s.PB_NO()
+    dwg.saveas('./dxf/PB_NO.dxf')
+
+    print("PB_NC - Push Button Normally Closed")
+    dwg = new_dwg()
+    msp = dwg.modelspace()
+    cur = Cursor(msp, transform=t)
+    cur + s.PB_NC()
+    dwg.saveas('./dxf/PB_NC.dxf')
