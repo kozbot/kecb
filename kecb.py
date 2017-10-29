@@ -223,6 +223,13 @@ if __name__ == '__main__':
     cur + s.LSW_NO()
     dwg.saveas('./dxf/LSW_NO.dxf')
 
+    print("LSW_NO_TS - Limit Switch Normally Open Thermostat")
+    dwg = new_dwg()
+    msp = dwg.modelspace()
+    cur = Cursor(msp, transform=t)
+    cur + s.LSW_NO_TS()
+    dwg.saveas('./dxf/LSW_NO_TS.dxf')
+
     print("*** PUSH BUTTONS ***")
 
     print("PB_NO - Push Button Normally Open")

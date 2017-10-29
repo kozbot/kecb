@@ -6,7 +6,7 @@ from utils import btu
 class Symbol(Drawable):
 
     def __init__(self):
-        super(Symbol, self).__init__()
+        super().__init__()
 
     def draw_no_contact(self):
 
@@ -69,7 +69,7 @@ class Symbol(Drawable):
 
 class PE(Symbol):
     def __init__(self, ):
-        super(PE, self).__init__()
+        super().__init__()
 
     def draw(self):
         self.add_line((0, 0), (0, -12))
@@ -80,7 +80,7 @@ class PE(Symbol):
 
 class SG(Symbol):
     def __init__(self, ):
-        super(SG, self).__init__()
+        super().__init__()
 
     def draw(self):
         self.add_line((0, 0), (0, -12))
@@ -96,21 +96,10 @@ class SG(Symbol):
 
 class LSW_NC(Symbol):
     def __init__(self, ):
-        super(LSW_NC, self).__init__()
+        super().__init__()
 
     def draw(self):
         self.draw_inline_terminal(right=False)
-
-        # *** CODE USED TO CALCULATE ***
-        # from sympy import Point, Ellipse, Line
-        # from sympy.geometry import Ray
-
-        # te = Ellipse(Point(50, 0), 5, 5)
-        # tans = te.tangent_lines(Point(15, 0))
-        # wall = Line(p1=(55, 0), p2=(55, 10))
-        # r = Ray(p1=tans[1].p1, p2=tans[1].p2)
-
-        # print(r.intersection(wall)[0].evalf())
 
         self.add_line(
             (15, 0),
@@ -122,42 +111,42 @@ class LSW_NC(Symbol):
 
 class LSW_NO(Symbol):
     def __init__(self, ):
-        super(LSW_NO, self).__init__()
+        super().__init__()
 
     def draw(self):
         self.draw_inline_terminal(right=False)
 
-        # *** CODE USED TO CALCULATE ***
-        # from sympy import Point, Ellipse, Line
-        # from sympy.geometry import Ray
-        # from mpmath import *
-
-        # te = Ellipse(Point(50, 0), 5, 5)
-        # tans = te.tangent_lines(Point(15, 0))
-        # wall = Line(p1=(55, -30), p2=(55, 30))
-        # r = Ray(p1=tans[1].p1, p2=tans[1].p2)
-
-        # print("NC Switch Line Endpoint:")
-        # print(r.intersection(wall)[0].evalf())
-
-        # nol = tans[0].rotate(radians(-5), Point(15, 0))
-
-        # r = Ray(p1=nol.p1, p2=nol.p2)
-
-        # print("NO Switch Line Endpoint:")
-        # print(r.intersection(wall)[0].evalf())
-
         self.add_line(
             (15, 0),
-            (55, -9.39164600762439),
+            (49.0734179127745, -8.00013698266566),
         )
         self.move((btu(2), 0))
         self.draw_inline_terminal(left=False)
 
 
+class LSW_NO_TS(Symbol):
+    def __init__(self, ):
+        super().__init__()
+
+    def draw(self):
+        LSW_NO().sym_plot(self)
+        self.add_polyline2d(
+            [
+                (30, -3.52186725285915),
+                (30, -10),
+                (35, -10),
+                (35, -15),
+                (25, -15),
+                (25, -20),
+                (30, -20),
+                (30, -25)
+            ]
+        )
+
+
 class PB_NO(Symbol):
     def __init__(self, ):
-        super(PB_NO, self).__init__()
+        super().__init__()
 
     def draw(self):
         self.draw_inline_terminal(right=False)
@@ -178,7 +167,7 @@ class PB_NO(Symbol):
 
 class PB_NC(Symbol):
     def __init__(self, ):
-        super(PB_NC, self).__init__()
+        super().__init__()
 
     def draw(self):
         self.draw_inline_terminal(right=False)
@@ -199,7 +188,7 @@ class PB_NC(Symbol):
 
 class CG(Symbol):
     def __init__(self, ):
-        super(CG, self).__init__()
+        super().__init__()
 
     def draw(self):
         self.add_line((0, 0), (0, -12))
@@ -213,7 +202,7 @@ class CG(Symbol):
 class NO(Symbol):
 
     def __init__(self):
-        super(NO, self).__init__()
+        super().__init__()
 
     def draw(self):
         self.draw_no_contact()
@@ -222,7 +211,7 @@ class NO(Symbol):
 class NC(Symbol):
 
     def __init__(self):
-        super(NC, self).__init__()
+        super().__init__()
 
     def draw(self):
         self.draw_nc_contact()
@@ -230,7 +219,7 @@ class NC(Symbol):
 
 class ETERM(Symbol):
     def __init__(self):
-        super(ETERM, self).__init__()
+        super().__init__()
 
     def draw(self):
         self.draw_terminal()
@@ -239,7 +228,7 @@ class ETERM(Symbol):
 class ITERM(Symbol):
 
     def __init__(self, left=True, right=True, label=None):
-        super(ITERM, self).__init__()
+        super().__init__()
         self._left = left
         self._right = right
         self._label = label
@@ -253,7 +242,7 @@ class ITERM(Symbol):
 class SOL(Symbol):
 
     def __init__(self):
-        super(SOL, self).__init__()
+        super().__init__()
 
     def draw(self):
         self.draw_inline_terminal()
@@ -266,7 +255,7 @@ class SOL(Symbol):
 class OL(Symbol):
 
     def __init__(self):
-        super(OL, self).__init__()
+        super().__init__()
 
     def draw(self):
         ITERM().sym_plot(self)
@@ -281,7 +270,7 @@ class OL(Symbol):
 class CB(Symbol):
 
     def __init__(self):
-        super(CB, self).__init__()
+        super().__init__()
 
     def draw(self):
         ITERM(left=True, right=False).sym_plot(self)
@@ -302,7 +291,7 @@ class CB(Symbol):
 class GEN_DEV_NC(Symbol):
 
     def __init__(self):
-        super(GEN_DEV_NC, self).__init__()
+        super().__init__()
 
     def draw(self):
         ETERM().sym_plot(self)
@@ -333,7 +322,7 @@ class GEN_DEV_NC(Symbol):
 class GEN_DEV_NO(Symbol):
 
     def __init__(self):
-        super(GEN_DEV_NO, self).__init__()
+        super().__init__()
 
     def draw(self):
         ETERM().sym_plot(self)
@@ -364,7 +353,7 @@ class GEN_DEV_NO(Symbol):
 class GEN_DEV(Symbol):
 
     def __init__(self):
-        super(GEN_DEV, self).__init__()
+        super().__init__()
 
     def draw(self):
         ETERM().sym_plot(self)
