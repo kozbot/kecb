@@ -124,6 +124,26 @@ class LSW_NO(Symbol):
         self.draw_inline_terminal(left=False)
 
 
+class LSW_NC_TS(Symbol):
+    def __init__(self, ):
+        super().__init__()
+
+    def draw(self):
+        LSW_NC().sym_plot(self)
+        self.add_polyline2d(
+            [
+                (30, 2.1650635094611),
+                (30, -10),
+                (35, -10),
+                (35, -15),
+                (25, -15),
+                (25, -20),
+                (30, -20),
+                (30, -25)
+            ]
+        )
+
+
 class LSW_NO_TS(Symbol):
     def __init__(self, ):
         super().__init__()
