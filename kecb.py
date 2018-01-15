@@ -265,6 +265,20 @@ if __name__ == '__main__':
     cur + s.LSW_NO_PS()
     dwg.saveas('./dxf/LSW_NO_PS.dxf')
 
+    print("LSW_NC_LS - Limit Switch Normally Closed Level")
+    dwg = new_dwg()
+    msp = dwg.modelspace()
+    cur = Cursor(msp, transform=t)
+    cur + s.LSW_NC_LS()
+    dwg.saveas('./dxf/LSW_NC_LS.dxf')
+
+    print("LSW_NO_PS - Limit Switch Normally Open Level")
+    dwg = new_dwg()
+    msp = dwg.modelspace()
+    cur = Cursor(msp, transform=t)
+    cur + s.LSW_NO_LS()
+    dwg.saveas('./dxf/LSW_NO_LS.dxf')
+
     print("*** PUSH BUTTONS ***")
 
     print("PB_NO - Push Button Normally Open")

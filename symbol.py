@@ -240,6 +240,38 @@ class LSW_NO_PS(Symbol):
         )
 
 
+class LSW_NC_LS(Symbol):
+    def __init__(self, ):
+        super().__init__()
+
+    def draw(self):
+        LSW_NC().sym_plot(self)
+        self.add_line(
+            (30, 2.1650635094611),
+            (30, -15)
+        )
+        self.add_circle(
+            (30, -25),
+            10,
+        )
+
+
+class LSW_NO_LS(Symbol):
+    def __init__(self, ):
+        super().__init__()
+
+    def draw(self):
+        LSW_NO().sym_plot(self)
+        self.add_line(
+            (30, -3.52186725285915),
+            (30, -15)
+        )
+        self.add_circle(
+            (30, -25),
+            10,
+        )
+
+
 class PB_NO(Symbol):
     def __init__(self, ):
         super().__init__()
