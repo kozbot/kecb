@@ -59,8 +59,8 @@ class Drawable(object):
         self.layout.add_arc(
             self.trans_xy(center),
             self.trans_scale(radius),
-            start,  # Start Angle (draws CCW)
-            end  # End Angle
+            start + self.rotation,  # Start Angle (draws CCW)
+            end + self.rotation  # End Angle
         )
 
     def add_line(self, start, end, **atr):

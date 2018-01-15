@@ -142,6 +142,14 @@ if __name__ == '__main__':
                      pole_offset=(0, btu(-2)),
                      rotation=90)
 
+    export_multipole(symbols=[s.CBMDS()],
+                     label="Circuit Breaker Main Disconnect Switch",
+                     file="CBMDS",
+                     minpole=3,
+                     maxpole=4,
+                     pole_offset=(0, btu(-2)),
+                     rotation=90)
+
     export_multipole(symbols=[s.CB()],
                      label="Circuit Breaker",
                      file="CB")
