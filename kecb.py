@@ -69,13 +69,15 @@ class Cursor(object):
 
 
 def export_multipole(symbols, label, file, minpole=1, maxpole=4,
-                     labelfirst=True, transform=pack_transform()):
+                     labelfirst=True, transform=pack_transform(),
+                     pole_offset=(btu(0), btu(-2)), rotation=0):
 
     for x in range(minpole, maxpole + 1):
         print(label + " - " + str(x) + ' Pole')
         dwg = new_dwg()
         msp = dwg.modelspace()
-        cur = Cursor(msp, transform=transform, poles=x)
+        cur = Cursor(msp, transform=transform,
+                     poles=x, pole_offset=pole_offset, rotation=rotation)
         for sym in symbols:
             cur = cur + sym
         fname = file + ('' if labelfirst is False and x == minpole
@@ -131,6 +133,14 @@ if __name__ == '__main__':
     cur = Cursor(msp, transform=t)
     cur + s.ITERM(label='#')
     dwg.saveas('./dxf/ITERM.dxf')
+
+    export_multipole(symbols=[s.MDS()],
+                     label="Main Disconnect Switch",
+                     file="MDS",
+                     minpole=3,
+                     maxpole=4,
+                     pole_offset=(0, btu(-2)),
+                     rotation=90)
 
     export_multipole(symbols=[s.CB()],
                      label="Circuit Breaker",

@@ -408,11 +408,40 @@ class CB(Symbol):
 
     def draw_multipole(self):
         self.draw_multipole_basic()
-
         self.add_line(
             (30, 20),
             (30, 20 + (self.pole_offset[1] * (self.poles - 1))),
             linetype='PHANTOM'
+        )
+
+
+class MDS(Symbol):
+
+    def __init__(self):
+        super().__init__()
+
+    def draw(self):
+        LSW_NO().sym_plot(self)
+
+    def draw_multipole(self):
+        self.draw_multipole_basic()
+        print('MDS POLE OFFSET:')
+        print(self.pole_offset)
+        self.add_line(
+            (30, -3.52186725285915),
+            (30, -3.52186725285915 +
+             (self.pole_offset[1] * (self.poles - 0.5))),
+            linetype='PHANTOM'
+        )
+        self.add_polyline2d(
+            [
+                (30, -3.52186725285915),
+                (30, -3.52186725285915 +
+                 (self.pole_offset[1] * (self.poles - 0.5))),
+                (49.0734179127745, -8.00013698266566 +
+                 (self.pole_offset[1] * (self.poles - 0.5)))
+            ],
+            attr={'linetype': 'PHANTOM'}
         )
 
 
