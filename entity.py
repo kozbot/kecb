@@ -2,86 +2,121 @@ from dataclasses import dataclass, field, InitVar
 from decimal import Decimal
 
 
+class Entity:
+    _bounds: object = None
+
+    def calculate_bounds(self):
+        raise NotImplementedError()
+
+    def bounds(self):
+        if self._bounds is not None:
+            return self._bounds
+        else:
+            self.calculate_bounds()
+            return self._bounds
+
+
 @dataclass
-class Point:
+class Point(Entity):
     x: Decimal = Decimal(0.0)
     y: Decimal = Decimal(0.0)
 
+    def calculate_bounds(self):
+        self._bounds = Rect(TL=Point(self.x, self.y),
+                            TR=Point(self.x, self.y),
+                            BR=Point(self.x, self.y),
+                            BL=Point(self.x, self.y))
+
 
 @dataclass
-class Line:
+class Line(Entity):
     start: Point = Point()
     end: Point = Point()
 
+    def calculate_bounds(self):
+        self._bounds = resolve_rect([self.start, self.end])
+
 
 @dataclass
-class PolyLine:
+class PolyLine(Entity):
     points: list  # List of Point
     closed: bool
 
+    def calculate_bounds(self):
+        self._bounds = resolve_rect(points=self.points)
+
 
 @dataclass
-class Rect:
+class Rect(Entity):
     TL: Point
     TR: Point
     BR: Point
     BL: Point
 
+    def calculate_bounds(self):
+        self._bounds = Rect(TL=self.TL,
+                            TR=self.TR,
+                            BR=self.BR,
+                            BL=self.BL)
 
-# TODO: Logic works, so this should be moved to creator
-@dataclass
-class ResolvedRect(Rect):
-    points: InitVar[list]
-    TL: any = field(init=False)
-    TR: any = field(init=False)
-    BR: any = field(init=False)
-    BL: any = field(init=False)
 
-    def __post_init__(self, points):
-        if len(points) < 2:
-            raise NotImplementedError(
-                "Only a list of 2 or more points supported.")
-        xlist = []
-        ylist = []
-        for p in points:
-            xlist.append(p.x)
-            ylist.append(p.y)
+def resolve_rect(points: list):
+    if len(points) < 2:
+        raise NotImplementedError(
+            "Only a list of 2 or more points supported.")
 
-        leftmost = min(xlist)
-        rightmost = max(xlist)
-        topmost = max(ylist)
-        botmost = min(ylist)
+    xlist = []
+    ylist = []
+    for p in points:
+        xlist.append(p.x)
+        ylist.append(p.y)
 
-        if leftmost == rightmost:
-            raise ValueError("X coordinates must not be the same.")
+    left = min(xlist)
+    right = max(xlist)
+    top = max(ylist)
+    bottom = min(ylist)
 
-        if topmost == botmost:
-            raise ValueError("Y coordinates must not be the same.")
+    # if left == right:
+    #     raise ValueError("X coordinates must not be the same.")
 
-        self.TL = Point(leftmost, topmost)
-        self.TR = Point(rightmost, topmost)
-        self.BR = Point(rightmost, botmost)
-        self.BL = Point(leftmost, botmost)
+    # if top == bottom:
+    #     raise ValueError("Y coordinates must not be the same.")
+
+    return Rect(TL=Point(left, top),
+                TR=Point(right, top),
+                BR=Point(right, bottom),
+                BL=Point(left, bottom))
 
 
 @dataclass
-class Circle:
-    center: Point
-    radius: float
-
-    def extents(self):
-        return Rect(TL=Point(self.center.x - self.radius, self.center.y + self.radius),
-                    TR=Point(self.center.x + self.radius, self.center.y + self.radius),
-                    BR=Point(self.center.x + self.radius, self.center.y - self.radius),
-                    BL=Point(self.center.x - self.radius, self.center.y - self.radius))
-
-@dataclass
-class Arc:
+class Arc(Entity):
     center: Point
     extents: Rect
-    radius: float
-    start: float
-    end: float
+    start: Decimal
+    end: Decimal
+
+    # TODO: This is not correct, work out the math later.
+    def calculate_bounds(self):
+        self._bounds = Rect(TL=self.TL,
+                            TR=self.TR,
+                            BR=self.BR,
+                            BL=self.BL)
+
+# TODO: Review common drawing libraries to see what normal variations on creation are.
+def resolve_arc_CRSE(center: Point, radius, start, end):
+    pass
+
+
+@dataclass
+class Circle(Entity):
+    center: Point
+    radius: Decimal
+
+    def calculate_bounds(self):
+        self._bounds = Rect(TL=Point(self.center.x - self.radius, self.center.y + self.radius),
+                            TR=Point(self.center.x + self.radius, self.center.y + self.radius),
+                            BR=Point(self.center.x + self.radius, self.center.y - self.radius),
+                            BL=Point(self.center.x - self.radius, self.center.y - self.radius))
 
 # class Arc(object):
 #
