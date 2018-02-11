@@ -10,7 +10,6 @@ class Cursor(object):
 
     def __init__(self, layout, transform,
                  poles=1, pole_offset=(btu(0), btu(-2)), **kwargs):
-
         super(Cursor, self).__init__()
         self.layout = layout
         self.poles = poles
@@ -21,7 +20,6 @@ class Cursor(object):
         self.rotation = kwargs.get('rotation', transform.rotation)
 
     def __add__(self, other):
-
         if isinstance(other, Drawable):
             other.plot(self.layout, self.origin, self.offset,
                        self.scale, self.rotation, self.poles, self.pole_offset)
@@ -32,37 +30,31 @@ class Cursor(object):
     # Chainable methods
 
     def MoveTo(self, pos):
-
         self.offset = pos
 
         return self
 
     def Move(self, dist):
-
         self.offset *= Affine.translation(*dist)
 
         return self
 
     def Left(self, num_blocks=1):
-
         self.Move((btu(-1), 0))
 
         return self
 
     def Right(self, num_blocks=1):
-
         self.Move((btu(1), 0))
 
         return self
 
     def Up(self, num_blocks=1):
-
         self.Move((0, btu(1)))
 
         return self
 
     def Down(self, num_blocks=1):
-
         self.Move((0, btu(-1)))
 
         return self
@@ -71,7 +63,6 @@ class Cursor(object):
 def export_multipole(symbols, label, file, minpole=1, maxpole=4,
                      labelfirst=True, transform=pack_transform(),
                      pole_offset=(btu(0), btu(-2)), rotation=0):
-
     for x in range(minpole, maxpole + 1):
         print(label + " - " + str(x) + ' Pole')
         dwg = new_dwg()

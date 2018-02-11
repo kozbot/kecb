@@ -1,7 +1,11 @@
 import entity
+from affine import Affine
 
 
 class Exporter:
+    def __init__(self):
+        super().__init__()
+        self.transform = Affine.identity()
 
     def draw(self, ent):
         if isinstance(ent, entity.Point):
@@ -16,13 +20,21 @@ class Exporter:
             self.draw_arc(ent)
         elif isinstance(ent, entity.Circle):
             self.draw_circle(ent)
+        elif isinstance(ent, entity.Group):
+            pre_transform = self.transform
+            self.transform *= ent.transform
+            for c in ent.children:
+                self.draw(c)
+        elif type(ent) is list:
+            for i in ent:
+                self.draw(i)
         else:
-            raise ValueError("Entity Type: " + type(ent) + " not supported.")
+            raise ValueError("Entity Type not supported.")
 
     def draw_point(self, ent):
         raise NotImplementedError()
 
-    def draw_line(self, ent):
+    def draw_line(self, ent: entity.Line):
         raise NotImplementedError()
 
     def draw_circle(self, ent):
@@ -34,50 +46,10 @@ class Exporter:
     def draw_rect(self, ent):
         raise NotImplementedError()
 
-    def draw_polyline(self, ent):
+    def draw_polyline(self, ent:entity.PolyLine):
         raise NotImplementedError()
 
-
-import ezdxf
-from ezdxf.tools import standards as std
-
-
-class ExportDXF(Exporter):
-
-    def draw_point(self, ent):
-        pass
-
-    def draw_line(self, ent):
-        pass
-
-    def draw_circle(self, ent):
-        pass
-
-    def draw_arc(self, ent):
-        pass
-
-    def draw_rect(self, ent):
-        pass
-
-    def draw_polyline(self, ent):
-        pass
+    def saveas(self, filename:str):
+        raise NotImplementedError
 
 
-class ExportSVG(Exporter):
-    def draw_point(self, ent):
-        pass
-
-    def draw_line(self, ent):
-        pass
-
-    def draw_circle(self, ent):
-        pass
-
-    def draw_arc(self, ent):
-        pass
-
-    def draw_rect(self, ent):
-        pass
-
-    def draw_polyline(self, ent):
-        pass

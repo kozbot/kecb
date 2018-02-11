@@ -1,9 +1,17 @@
 from dataclasses import dataclass, field, InitVar
 from decimal import Decimal
+from affine import Affine
+from typing import List
+from anytree import NodeMixin
 
 
-class Entity:
+class Entity(NodeMixin):
     _bounds: object = None
+
+    def __init__(self):
+        super().__init__()
+        self.parent = None
+        self.linetype = None
 
     def calculate_bounds(self):
         raise NotImplementedError()
@@ -16,48 +24,69 @@ class Entity:
             return self._bounds
 
 
-@dataclass
 class Point(Entity):
-    x: Decimal = Decimal(0.0)
-    y: Decimal = Decimal(0.0)
+
+    def __init__(self, x: float, y: float):
+        super().__init__()
+        self.x = x
+        self.y = y
 
     def calculate_bounds(self):
-        self._bounds = Rect(TL=Point(self.x, self.y),
-                            TR=Point(self.x, self.y),
-                            BR=Point(self.x, self.y),
-                            BL=Point(self.x, self.y))
+        self._bounds = Rect([Point(self.x, self.y),
+                             Point(self.x, self.y),
+                             Point(self.x, self.y),
+                             Point(self.x, self.y)])
+
+    def __getitem__(self, item):
+        if item == 0:
+            return self.x
+        elif item == 1:
+            return self.y
+        else:
+            raise IndexError
 
 
-@dataclass
 class Line(Entity):
-    start: Point = Point()
-    end: Point = Point()
+    def __init__(self, start: Point, end: Point):
+        super().__init__()
+        self.start = start
+        self.end = end
 
     def calculate_bounds(self):
         self._bounds = resolve_rect([self.start, self.end])
 
 
-@dataclass
 class PolyLine(Entity):
-    points: list  # List of Point
-    closed: bool
+    def __init__(self, points: List[Point], closed: bool):
+        super().__init__()
+        self.points = points
+        self.closed = closed
 
     def calculate_bounds(self):
         self._bounds = resolve_rect(points=self.points)
 
 
-@dataclass
 class Rect(Entity):
-    TL: Point
-    TR: Point
-    BR: Point
-    BL: Point
+    def __init__(self, points: List[Point]):
+        super().__init__()
+        if len(points) is not 4:
+            raise ValueError("Rect should have 4 points.")
+        self.points = points
 
     def calculate_bounds(self):
-        self._bounds = Rect(TL=self.TL,
-                            TR=self.TR,
-                            BR=self.BR,
-                            BL=self.BL)
+        self._bounds = Rect(self.points)
+
+    @staticmethod
+    def __add__(self, other):
+        if isinstance(other, Rect):
+            return resolve_rect(self.points + other.points)
+
+    @staticmethod
+    def identity():
+        return Rect([Point(0, 0),
+                     Point(0, 0),
+                     Point(0, 0),
+                     Point(0, 0)])
 
 
 def resolve_rect(points: list):
@@ -82,13 +111,12 @@ def resolve_rect(points: list):
     # if top == bottom:
     #     raise ValueError("Y coordinates must not be the same.")
 
-    return Rect(TL=Point(left, top),
-                TR=Point(right, top),
-                BR=Point(right, bottom),
-                BL=Point(left, bottom))
+    return Rect([Point(left, top),
+                 Point(right, top),
+                 Point(right, bottom),
+                 Point(left, bottom)])
 
 
-@dataclass
 class Arc(Entity):
     center: Point
     extents: Rect
@@ -97,26 +125,38 @@ class Arc(Entity):
 
     # TODO: This is not correct, work out the math later.
     def calculate_bounds(self):
-        self._bounds = Rect(TL=self.TL,
-                            TR=self.TR,
-                            BR=self.BR,
-                            BL=self.BL)
+        self._bounds = Rect.identity()
+
 
 # TODO: Review common drawing libraries to see what normal variations on creation are.
 def resolve_arc_CRSE(center: Point, radius, start, end):
     pass
 
 
-@dataclass
 class Circle(Entity):
     center: Point
     radius: Decimal
 
     def calculate_bounds(self):
-        self._bounds = Rect(TL=Point(self.center.x - self.radius, self.center.y + self.radius),
-                            TR=Point(self.center.x + self.radius, self.center.y + self.radius),
-                            BR=Point(self.center.x + self.radius, self.center.y - self.radius),
-                            BL=Point(self.center.x - self.radius, self.center.y - self.radius))
+        self._bounds = Rect([Point(self.center.x - self.radius, self.center.y + self.radius),
+                             Point(self.center.x + self.radius, self.center.y + self.radius),
+                             Point(self.center.x + self.radius, self.center.y - self.radius),
+                             Point(self.center.x - self.radius, self.center.y - self.radius)])
+
+
+class Group(Entity):
+    def __init__(self):
+        super().__init__()
+        self.transform = Affine.identity()
+        self.entities: List[Entity] = []
+
+    def calculate_bounds(self):
+        for e in self.entities:
+            self._bounds = self._bounds + e.calculate_bounds()
+
+    def _post_detach_children(self, children):
+        self._bounds = Rect.identity()
+        self.calculate_bounds()
 
 # class Arc(object):
 #
