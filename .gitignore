@@ -103,5 +103,8 @@ ENV/
 # dxf directory
 dxf/
 
+# svg directory
+svg/
+
 # scrap directory
 scrap/
