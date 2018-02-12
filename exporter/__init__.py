@@ -5,5 +5,7 @@ if find_spec('ezdxf') is not None:
     HAVE_DXF = True
     from .dxfexporter import DxfExporter
 
-
-from .svgexporter import SvgExporter
+HAVE_SVG = False
+if find_spec('svgwrite') is not None:
+    HAVE_SVG = True
+    from .svgexporter import SvgExporter

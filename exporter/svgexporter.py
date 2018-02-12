@@ -2,6 +2,7 @@ from .exporter import Exporter
 import svgwrite
 import entity
 
+
 class SvgExporter(Exporter):
 
     def __init__(self):
@@ -15,7 +16,7 @@ class SvgExporter(Exporter):
         pass
 
     def draw_line(self, ent: entity.Line):
-        self.dwg.add(self.dwg.line(start=ent.start,end=ent.end,stroke=svgwrite.rgb(0, 0, 0, '%')))
+        self.dwg.add(self.dwg.line(start=ent.start, end=ent.end, stroke=svgwrite.rgb(0, 0, 0, '%')))
 
     def draw_circle(self, ent):
         pass

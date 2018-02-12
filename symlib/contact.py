@@ -1,16 +1,17 @@
-import entity as ent
+import entity
 
 
-def NO():
-    return [
-        ent.Line(ent.Point(0, 0), ent.Point(5, 0)),
-        ent.Line(ent.Point(15, 0), ent.Point(20, 0)),
-        ent.Line(ent.Point(5, 10), ent.Point(5, -10)),
-        ent.Line(ent.Point(15, 10), ent.Point(15, -10)),
-    ]
-
+class NO(entity.Group):
+    def __init__(self):
+        super().__init__()
+        self.children = [
+            entity.Line(entity.Point(0, 0), entity.Point(5, 0)),
+            entity.Line(entity.Point(15, 0), entity.Point(20, 0)),
+            entity.Line(entity.Point(5, 10), entity.Point(5, -10)),
+            entity.Line(entity.Point(15, 10), entity.Point(15, -10)),
+        ]
 
 def NC():
     base = NO()
-    base.append(ent.Line(ent.Point(0, 10), ent.Point(20, -10)))
+    base.append(entity.Line(entity.Point(0, 10), entity.Point(20, -10)))
     return base

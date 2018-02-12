@@ -1,12 +1,10 @@
-from dataclasses import dataclass, field, InitVar
-from decimal import Decimal
 from affine import Affine
 from typing import List
 from anytree import NodeMixin
-
+from utils import pack_transform
 
 class Entity(NodeMixin):
-    _bounds: object = None
+    _bounds = None
 
     def __init__(self):
         super().__init__()
@@ -22,6 +20,9 @@ class Entity(NodeMixin):
         else:
             self.calculate_bounds()
             return self._bounds
+
+    def translate(self, xoff, yoff):
+        raise NotImplementedError()
 
 
 class Point(Entity):
@@ -45,6 +46,11 @@ class Point(Entity):
         else:
             raise IndexError
 
+    def translate(self, xoff, yoff):
+        self.x += xoff
+        self.y += yoff
+        return self
+
 
 class Line(Entity):
     def __init__(self, start: Point, end: Point):
@@ -54,6 +60,11 @@ class Line(Entity):
 
     def calculate_bounds(self):
         self._bounds = resolve_rect([self.start, self.end])
+
+    def translate(self, xoff, yoff):
+        self.start.translate(xoff, yoff)
+        self.end.translate(xoff, yoff)
+        return self
 
 
 class PolyLine(Entity):
@@ -120,8 +131,8 @@ def resolve_rect(points: list):
 class Arc(Entity):
     center: Point
     extents: Rect
-    start: Decimal
-    end: Decimal
+    start: float
+    end: float
 
     # TODO: This is not correct, work out the math later.
     def calculate_bounds(self):
@@ -134,8 +145,11 @@ def resolve_arc_CRSE(center: Point, radius, start, end):
 
 
 class Circle(Entity):
-    center: Point
-    radius: Decimal
+    def __init__(self, center: Point, radius: float):
+        super().__init__()
+        self.transform = Affine.identity()
+        self.center: Point = center
+        self.radius: float = radius
 
     def calculate_bounds(self):
         self._bounds = Rect([Point(self.center.x - self.radius, self.center.y + self.radius),
@@ -143,20 +157,38 @@ class Circle(Entity):
                              Point(self.center.x + self.radius, self.center.y - self.radius),
                              Point(self.center.x - self.radius, self.center.y - self.radius)])
 
+    def translate(self, xoff, yoff):
+        self.center.translate(xoff, yoff)
+        return self
+
 
 class Group(Entity):
     def __init__(self):
         super().__init__()
-        self.transform = Affine.identity()
         self.entities: List[Entity] = []
+        self.origin: Point = Point(0, 0)
+        self.rotation = 0
+        self.scale = 1
 
     def calculate_bounds(self):
-        for e in self.entities:
+        for e in self.children:
             self._bounds = self._bounds + e.calculate_bounds()
 
     def _post_detach_children(self, children):
         self._bounds = Rect.identity()
         self.calculate_bounds()
+
+    def translate(self, xoff, yoff):
+        self.origin.translate(xoff, yoff)
+        return self
+
+    def rotate(self, rotation):
+        self.rotation = rotation
+        return self
+
+    def affine(self):
+        transform = pack_transform(origin=(self.origin.x,self.origin.y),scale=self.scale,rotation=self.rotation)
+        return transform
 
 # class Arc(object):
 #
