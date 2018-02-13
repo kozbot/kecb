@@ -3,6 +3,18 @@ from typing import List
 from anytree import NodeMixin
 from utils import pack_transform
 
+
+class Transform():
+    __slots__ = ['origin', 'offset', 'rotation', 'scale']
+
+    def __init__(self, origin = (0,0), offset=(0,0), rotation=0, scale=1):
+        super().__init__()
+        self.origin = origin
+        self.offset = offset
+        self.rotation = rotation
+        self.scale = scale
+
+
 class Entity(NodeMixin):
     _bounds = None
 
@@ -187,8 +199,7 @@ class Group(Entity):
         return self
 
     def affine(self):
-        transform = pack_transform(origin=(self.origin.x,self.origin.y),scale=self.scale,rotation=self.rotation)
-        return transform
+        return Transform(origin=(self.origin.x,self.origin.y), scale=self.scale,rotation=self.rotation)
 
 # class Arc(object):
 #

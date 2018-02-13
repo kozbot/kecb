@@ -11,7 +11,11 @@ class NO(entity.Group):
             entity.Line(entity.Point(15, 10), entity.Point(15, -10)),
         ]
 
-def NC():
-    base = NO()
-    base.append(entity.Line(entity.Point(0, 10), entity.Point(20, -10)))
-    return base
+
+class NC(entity.Group):
+    def __init__(self):
+        super().__init__()
+        self.children = [
+            NO(),
+            entity.Line(entity.Point(0, 10), entity.Point(20, -10)),
+        ]
