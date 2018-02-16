@@ -5,7 +5,7 @@ from affine import Affine
 class Exporter:
     def __init__(self):
         super().__init__()
-        self.transform = Affine.identity()
+        self.transform = None
 
     def draw(self, ent, transform=None, scale=1):
         if isinstance(ent, entity.Point):
@@ -22,7 +22,7 @@ class Exporter:
             self.draw_circle(ent, transform=transform, scale=scale)
         elif isinstance(ent, entity.Group):
             for child in ent.children:
-                self.draw(child, transform=ent.affine(), scale=ent.scale)
+                self.draw(child, transform=ent.affine() + transform, scale=ent.scale)
         elif type(ent) is list:
             for i in ent:
                 self.draw(i, transform=transform, scale=scale)

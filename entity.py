@@ -2,17 +2,29 @@ from affine import Affine
 from typing import List
 from anytree import NodeMixin
 from utils import pack_transform
+from config import POLE_OFFSET
 
 
 class Transform():
     __slots__ = ['origin', 'offset', 'rotation', 'scale']
 
-    def __init__(self, origin = (0,0), offset=(0,0), rotation=0, scale=1):
+    def __init__(self, origin=(0, 0), offset=(0, 0), rotation=0, scale=1):
         super().__init__()
         self.origin = origin
         self.offset = offset
         self.rotation = rotation
         self.scale = scale
+
+    def __add__(self, other):
+        if not other:
+            return self
+        elif type(other) is Transform:
+            return Transform(origin=(self.origin[0] + other.origin[0], self.origin[1] + other.origin[1]),
+                             offset=(self.offset[0] + other.offset[0], self.offset[1] + other.offset[1]),
+                             rotation=self.rotation + other.rotation,
+                             scale=self.scale * other.scale)
+        else:
+            raise TypeError
 
 
 class Entity(NodeMixin):
@@ -35,6 +47,9 @@ class Entity(NodeMixin):
 
     def translate(self, xoff, yoff):
         raise NotImplementedError()
+
+    def duplicate(self):
+        raise NotImplementedError
 
 
 class Point(Entity):
@@ -63,6 +78,9 @@ class Point(Entity):
         self.y += yoff
         return self
 
+    def duplicate(self):
+        return Point(x=self.x, y=self.y)
+
 
 class Line(Entity):
     def __init__(self, start: Point, end: Point):
@@ -77,6 +95,9 @@ class Line(Entity):
         self.start.translate(xoff, yoff)
         self.end.translate(xoff, yoff)
         return self
+
+    def duplicate(self):
+        return Line(start=self.start.duplicate(), end=self.end.duplicate())
 
 
 class PolyLine(Entity):
@@ -199,7 +220,34 @@ class Group(Entity):
         return self
 
     def affine(self):
-        return Transform(origin=(self.origin.x,self.origin.y), scale=self.scale,rotation=self.rotation)
+        return Transform(origin=(self.origin.x, self.origin.y), scale=self.scale, rotation=self.rotation)
+
+
+class CodedSymbol(Group):
+    def __init__(self, *args, **kwargs):
+        super().__init__()
+        self.poles = kwargs.get("poles", 1)
+        self.children = self.generate()
+
+        if self.poles > 1:
+            self.children = self.generate_multipole(poles=self.poles)
+
+    def generate(self):
+        raise NotImplementedError
+
+    def generate_multipole(self, poles=1):
+        return self.generate_multipole_basic(poles=poles)
+
+    def generate_multipole_basic(self, poles):
+        px, py = 0, POLE_OFFSET
+        entities = []
+        for child in self.children:
+            if isinstance(child, CodedSymbol):
+                entities.extend(child.generate_multipole(poles=poles))
+            else:
+                for i in range(0, poles):
+                    entities.append(child.duplicate().translate(xoff=i * px, yoff=i * py))
+        return entities
 
 # class Arc(object):
 #

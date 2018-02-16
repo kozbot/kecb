@@ -38,7 +38,8 @@ class DxfExporter(Exporter):
         else:
             start = (ent.start.x, ent.start.y)
             end = (ent.end.x, ent.end.y)
-
+        print("LINE ENTITY: ", ent)
+        print("LINE START: ", start, "LINE END: ", end)
         self.msp.add_line(start, end, dxfattribs=attr)
 
     def draw_polyline(self, ent: entity.PolyLine, transform=None):
@@ -48,7 +49,7 @@ class DxfExporter(Exporter):
         points = []
         for p in ent.points:
             if transform is not None:
-                points.append(self.transform_point((p.x, p.y),transform))
+                points.append(self.transform_point((p.x, p.y), transform))
             else:
                 points.append((p.x, p.y))
 

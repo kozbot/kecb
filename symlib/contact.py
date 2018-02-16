@@ -1,10 +1,12 @@
 import entity
 
 
-class NO(entity.Group):
-    def __init__(self):
-        super().__init__()
-        self.children = [
+class NO(entity.CodedSymbol):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def generate(self):
+        return [
             entity.Line(entity.Point(0, 0), entity.Point(5, 0)),
             entity.Line(entity.Point(15, 0), entity.Point(20, 0)),
             entity.Line(entity.Point(5, 10), entity.Point(5, -10)),
@@ -12,10 +14,12 @@ class NO(entity.Group):
         ]
 
 
-class NC(entity.Group):
-    def __init__(self):
-        super().__init__()
-        self.children = [
+class NC(entity.CodedSymbol):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def generate(self):
+        return [
             NO(),
             entity.Line(entity.Point(0, 10), entity.Point(20, -10)),
         ]
