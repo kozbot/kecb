@@ -38,8 +38,6 @@ class DxfExporter(Exporter):
         else:
             start = (ent.start.x, ent.start.y)
             end = (ent.end.x, ent.end.y)
-        print("LINE ENTITY: ", ent)
-        print("LINE START: ", start, "LINE END: ", end)
         self.msp.add_line(start, end, dxfattribs=attr)
 
     def draw_polyline(self, ent: entity.PolyLine, transform=None):
