@@ -29,10 +29,10 @@ class Transform:
 class Entity(NodeMixin):
     _bounds = None
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super().__init__()
         self.parent = None
-        self.linetype = None
+        self.linetype = kwargs.get('linetype', None)
 
     def calculate_bounds(self):
         raise NotImplementedError()
@@ -122,8 +122,8 @@ class PolyLine(Entity):
 
 
 class Rect(Entity):
-    def __init__(self, points: List[Point]):
-        super().__init__()
+    def __init__(self, *args, points: List[Point], **kwargs):
+        super().__init__(*args, **kwargs)
         if len(points) is not 4:
             raise ValueError("Rect should have 4 points.")
         self.points = points
@@ -138,7 +138,7 @@ class Rect(Entity):
 
     @staticmethod
     def identity():
-        return Rect([Point(0, 0),
+        return Rect(points=[Point(0, 0),
                      Point(0, 0),
                      Point(0, 0),
                      Point(0, 0)])

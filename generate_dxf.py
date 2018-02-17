@@ -3,9 +3,12 @@ import symlib.contact as sc
 import symlib.terminal as st
 import symlib.ground as sg
 import symlib.limit as sl
+import symlib.generic as gen
 import inspect
 from entity import CodedSymbol
 
+
+# TODO: Rather than all this insanity get a list of all the symlib.* classes and convert to set to eliminate duplicates.
 
 def is_contact(o):
     return inspect.isclass(o) and issubclass(o, CodedSymbol) and (o.__module__ == "symlib.contact")
@@ -21,6 +24,10 @@ def is_ground(o):
 
 def is_limit(o):
     return inspect.isclass(o) and issubclass(o, CodedSymbol) and (o.__module__ == "symlib.limit")
+
+
+def is_generic(o):
+    return inspect.isclass(o) and issubclass(o, CodedSymbol) and (o.__module__ == "symlib.generic")
 
 
 def export_list(symbols):
@@ -50,3 +57,6 @@ if __name__ == "__main__":
 
     print("Limit Switches:")
     export_list(inspect.getmembers(sl, is_limit))
+
+    print("Generic Devices:")
+    export_list(inspect.getmembers(gen, is_generic))
