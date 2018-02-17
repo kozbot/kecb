@@ -262,6 +262,9 @@ class Group(Entity):
 
 
 class CodedSymbol(Group):
+    min_pole = 1
+    max_pole = 1
+
     def __init__(self, *args, **kwargs):
         super().__init__()
         self.poles = kwargs.get("poles", 1)

@@ -2,6 +2,9 @@ import entity
 
 
 class NO(entity.CodedSymbol):
+    min_pole = 1
+    max_pole = 4
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -15,6 +18,9 @@ class NO(entity.CodedSymbol):
 
 
 class NC(entity.CodedSymbol):
+    min_pole = 1
+    max_pole = 4
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
