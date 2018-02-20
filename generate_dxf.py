@@ -4,6 +4,7 @@ import symlib.terminal as st
 import symlib.ground as sg
 import symlib.limit as sl
 import symlib.generic as gen
+import symlib.protect as protect
 import inspect
 from entity import CodedSymbol
 
@@ -29,6 +30,9 @@ def is_limit(o):
 def is_generic(o):
     return inspect.isclass(o) and issubclass(o, CodedSymbol) and (o.__module__ == "symlib.generic")
 
+
+def is_protect(o):
+    return inspect.isclass(o) and issubclass(o, CodedSymbol) and (o.__module__ == "symlib.protect")
 
 def export_list(symbols):
     for symbol in symbols:
@@ -60,3 +64,7 @@ if __name__ == "__main__":
 
     print("Generic Devices:")
     export_list(inspect.getmembers(gen, is_generic))
+
+    print("Protection Symbols:")
+    export_list(inspect.getmembers(protect, is_protect))
+

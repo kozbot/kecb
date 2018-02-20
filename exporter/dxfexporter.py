@@ -79,5 +79,18 @@ class DxfExporter(Exporter):
             radius = ent.radius
         self.msp.add_circle(center, radius, dxfattribs=attr)
 
+    def draw_arc(self, ent, transform=None, scale=1):
+        if transform is not None:
+            center = self.transform_point((ent.center.x, ent.center.y), transform)
+            radius = ent.radius * transform.scale
+            start = ent.start + transform.rotation
+            end = ent.end + transform.rotation
+        else:
+            center = (ent.center.x, ent.center.y)
+            radius = ent.radius
+            start = ent.start
+            end = ent.end
+        self.msp.add_arc(center=center, radius=radius, start_angle=start, end_angle=end)
+
     def saveas(self, filename: str):
         self.dwg.saveas(filename=filename)

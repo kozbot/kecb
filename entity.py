@@ -82,8 +82,8 @@ class Point(Entity):
 
 
 class Line(Entity):
-    def __init__(self, start: Point, end: Point):
-        super().__init__()
+    def __init__(self, start: Point, end: Point, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.start = start
         self.end = end
 
@@ -139,9 +139,9 @@ class Rect(Entity):
     @staticmethod
     def identity():
         return Rect(points=[Point(0, 0),
-                     Point(0, 0),
-                     Point(0, 0),
-                     Point(0, 0)])
+                            Point(0, 0),
+                            Point(0, 0),
+                            Point(0, 0)])
 
     def translate(self, xoff, yoff):
         for p in self.points:
@@ -176,32 +176,59 @@ def resolve_rect(points: list):
     # if top == bottom:
     #     raise ValueError("Y coordinates must not be the same.")
 
-    return Rect([Point(left, top),
-                 Point(right, top),
-                 Point(right, bottom),
-                 Point(left, bottom)])
+    return Rect(points=[Point(left, top),
+                        Point(right, top),
+                        Point(right, bottom),
+                        Point(left, bottom)])
 
 
 class Arc(Entity):
     center: Point
-    extents: Rect
+    radius: float
     start: float
     end: float
+    fit: Rect
+
+    def __init__(self):
+        super().__init__()
 
     # TODO: This is not correct, work out the math later.
     def calculate_bounds(self):
         self._bounds = Rect.identity()
 
     def translate(self, xoff, yoff):
-        pass
+        self.center.translate(xoff=xoff, yoff=yoff)
+        self.fit.translate(xoff=xoff, yoff=yoff)
+        return self
 
     def duplicate(self):
-        pass
+        a = Arc()
+        a.center = self.center.duplicate()
+        a.radius = self.radius
+        a.start = self.start
+        a.end = self.end
+        a.fit = self.fit
+        return a
 
+    @staticmethod
+    def from_crse(center: Point, radius, start, end):
+        a = Arc()
+        a.center = center
+        a.radius = radius
+        if start == end:
+            raise ValueError("Start and End angles cannot be the same.")
+        if start > 360 or start < 0:
+            a.start = start % 360
+        else:
+            a.start = start
 
-# TODO: Review common drawing libraries to see what normal variations on creation are.
-def resolve_arc_CRSE(center: Point, radius, start, end):
-    pass
+        if end > 360 or end < 0:
+            a.end = end % 360
+        else:
+            a.end = end
+        a.fit = resolve_rect(points=[Point(a.center.x - a.radius, a.center.y + a.radius),
+                                     Point(a.center.x + a.radius, a.center.y - a.radius)])
+        return a
 
 
 class Circle(Entity):
@@ -287,7 +314,9 @@ class CodedSymbol(Group):
                 entities.extend(child.generate_multipole(poles=poles))
             else:
                 for i in range(0, poles):
-                    entities.append(child.duplicate().translate(xoff=i * px, yoff=i * py))
+                    entities.append(
+                        child.duplicate().translate(xoff=(i * px) + self.origin.x,
+                                                    yoff=(i * py) + self.origin.y))
         return entities
 
 # class Arc(object):
