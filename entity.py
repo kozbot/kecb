@@ -100,8 +100,8 @@ class Line(Entity):
 
 
 class PolyLine(Entity):
-    def __init__(self, points: List[Point], closed: bool):
-        super().__init__()
+    def __init__(self, points: List[Point], closed: bool, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.points = points
         self.closed = closed
 
@@ -268,7 +268,7 @@ class Group(Entity):
         self._bounds = Rect.identity()
         self.calculate_bounds()
 
-    def translate(self, xoff, yoff):
+    def translate(self, xoff=0, yoff=0):
         self.origin.translate(xoff, yoff)
         return self
 

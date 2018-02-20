@@ -5,6 +5,7 @@ import symlib.ground as sg
 import symlib.limit as sl
 import symlib.generic as gen
 import symlib.protect as protect
+import symlib.coil as coil
 import inspect
 from entity import CodedSymbol
 
@@ -33,6 +34,12 @@ def is_generic(o):
 
 def is_protect(o):
     return inspect.isclass(o) and issubclass(o, CodedSymbol) and (o.__module__ == "symlib.protect")
+
+
+def is_coil(o):
+    return inspect.isclass(o) and issubclass(o, CodedSymbol) and (o.__module__ == "symlib.coil")
+
+
 
 def export_list(symbols):
     for symbol in symbols:
@@ -68,3 +75,5 @@ if __name__ == "__main__":
     print("Protection Symbols:")
     export_list(inspect.getmembers(protect, is_protect))
 
+    print("Coil Symbols:")
+    export_list(inspect.getmembers(coil, is_coil))
