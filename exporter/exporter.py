@@ -1,4 +1,5 @@
 import entity
+import config as cfg
 from affine import Affine
 
 
@@ -7,7 +8,7 @@ class Exporter:
         super().__init__()
         self.transform = None
 
-    def draw(self, ent, transform=None, scale=1):
+    def draw(self, ent, transform=None, scale=cfg.UNIT_SCALE):
         if isinstance(ent, entity.Point):
             self.draw_point(ent, transform=transform)
         elif isinstance(ent, entity.Line):

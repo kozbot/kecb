@@ -2,7 +2,7 @@ from .exporter import Exporter
 import ezdxf
 from ezdxf.tools import standards as std
 import entity
-from affine import Affine
+import config as cfg
 
 
 class DxfExporter(Exporter):
@@ -31,7 +31,7 @@ class DxfExporter(Exporter):
         attr = {'linetype': 'BYLAYER'}
         if ent.linetype is not None:
             attr['linetype'] = ent.linetype
-
+            attr['ltscale'] = cfg.LINETYPE_SCALE
         if transform is not None:
             start = self.transform_point((ent.start.x, ent.start.y), transform)
             end = self.transform_point((ent.end.x, ent.end.y), transform)
@@ -45,6 +45,7 @@ class DxfExporter(Exporter):
         attr['flags'] = ezdxf.const.POLYLINE_CLOSED
         if ent.linetype is not None:
             attr['linetype'] = ent.linetype
+            attr['ltscale'] = cfg.LINETYPE_SCALE
         points = []
         for p in ent.points:
             if transform is not None:
@@ -60,6 +61,7 @@ class DxfExporter(Exporter):
             attr['flags'] = ezdxf.const.POLYLINE_CLOSED
         if ent.linetype is not None:
             attr['linetype'] = ent.linetype
+            attr['ltscale'] = cfg.LINETYPE_SCALE
         points = []
         for p in ent.points:
             if transform is not None:
