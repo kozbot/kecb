@@ -6,7 +6,9 @@ import symlib.limit as sl
 import symlib.generic as gen
 import symlib.protect as protect
 import symlib.coil as coil
+import symlib.pilot as pilot
 import inspect
+import os
 from entity import CodedSymbol
 
 
@@ -39,7 +41,8 @@ def is_protect(o):
 def is_coil(o):
     return inspect.isclass(o) and issubclass(o, CodedSymbol) and (o.__module__ == "symlib.coil")
 
-
+def is_pilot(o):
+    return inspect.isclass(o) and issubclass(o, CodedSymbol) and (o.__module__ == "symlib.pilot")
 
 def export_list(symbols):
     for symbol in symbols:
@@ -57,6 +60,8 @@ def export_list(symbols):
 
 
 if __name__ == "__main__":
+    os.makedirs('./dxf',exist_ok=True)
+
     print("Contacts:")
     export_list(inspect.getmembers(sc, is_contact))
 
@@ -77,3 +82,6 @@ if __name__ == "__main__":
 
     print("Coil Symbols:")
     export_list(inspect.getmembers(coil, is_coil))
+
+    print("Pilot Devices:")
+    export_list(inspect.getmembers(pilot, is_pilot))
