@@ -6,9 +6,10 @@ from affine import Affine
 class Exporter:
     def __init__(self):
         super().__init__()
-        self.transform = None
 
     def draw(self, ent, transform=None, scale=cfg.UNIT_SCALE):
+        if transform is None:
+            transform = entity.Transform(scale=scale)
         if isinstance(ent, entity.Point):
             self.draw_point(ent, transform=transform)
         elif isinstance(ent, entity.Line):
