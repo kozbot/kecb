@@ -37,16 +37,16 @@ class Exporter:
     def draw_line(self, ent: entity.Line, transform=None):
         raise NotImplementedError()
 
-    def draw_circle(self, ent: entity.Circle, transform=None):
-        raise NotImplementedError()
-
-    def draw_arc(self, ent, transform=None):
+    def draw_polyline(self, ent: entity.PolyLine, transform=None):
         raise NotImplementedError()
 
     def draw_rect(self, ent: entity.Rect, transform=None):
         raise NotImplementedError()
 
-    def draw_polyline(self, ent: entity.PolyLine, transform=None):
+    def draw_arc(self, ent, transform=None):
+        raise NotImplementedError()
+
+    def draw_circle(self, ent: entity.Circle, transform=None):
         raise NotImplementedError()
 
     def saveas(self, filename: str):
