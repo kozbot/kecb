@@ -71,7 +71,7 @@ class DxfExporter(Exporter):
 
         self.msp.add_polyline2d(points, dxfattribs=attr)
 
-    def draw_circle(self, ent: entity.Circle, transform=None, scale=1):
+    def draw_circle(self, ent: entity.Circle, transform=None):
         attr = {}
         if transform is not None:
             center = self.transform_point((ent.center.x, ent.center.y), transform)
@@ -81,7 +81,7 @@ class DxfExporter(Exporter):
             radius = ent.radius
         self.msp.add_circle(center, radius, dxfattribs=attr)
 
-    def draw_arc(self, ent, transform=None, scale=1):
+    def draw_arc(self, ent, transform=None):
         if transform is not None:
             center = self.transform_point((ent.center.x, ent.center.y), transform)
             radius = ent.radius * transform.scale
