@@ -10,13 +10,7 @@ class DxfExporter(Exporter):
     def __init__(self):
         super().__init__()
         self.dwg = ezdxf.new(dxfversion='AC1015')
-        for linetype in std.linetypes():
-            try:
-                self.dwg.linetypes.new(name=linetype[0],
-                                       dxfattribs={'description': linetype[1],
-                                                   'pattern': linetype[2]})
-            except ValueError as e:
-                pass
+        ezdxf.setup_linetypes(self.dwg)
         self.msp = self.dwg.modelspace()
 
     def draw_point(self, ent: entity.Point, transform=None):
