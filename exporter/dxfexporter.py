@@ -9,7 +9,7 @@ class DxfExporter(Exporter):
 
     def __init__(self):
         super().__init__()
-        self.dwg = ezdxf.new(dxfversion='AC1015')
+        self.dwg = ezdxf.new(dxfversion='AC1015',setup=True)
         for linetype in std.linetypes():
             try:
                 self.dwg.linetypes.new(name=linetype[0],
@@ -80,6 +80,15 @@ class DxfExporter(Exporter):
             center = (ent.center.x, ent.center.y)
             radius = ent.radius
         self.msp.add_circle(center, radius, dxfattribs=attr)
+
+    def draw_text(self, ent: entity.Text, transform=None, scale=1):
+
+        if transform is not None:
+            location = self.transform_point((ent.location.x,ent.location.y),transform)
+        else:
+            location = (ent.location.x,ent.location.y)
+        self.msp.add_text(ent.label, dxfattribs={'style': 'STANDARD', 'height': ent.size*scale})\
+            .set_pos(location,align=ent.alignment)
 
     def draw_arc(self, ent, transform=None, scale=1):
         if transform is not None:

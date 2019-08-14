@@ -1,5 +1,6 @@
 from typing import List
 import entity
+import config as cfg
 
 
 class ETERM(entity.CodedSymbol):
@@ -16,7 +17,7 @@ class ETERM(entity.CodedSymbol):
 
 
 class ITERM(entity.CodedSymbol):
-    def __init__(self, *args, left=True, right=True, label=None, **kwargs):
+    def __init__(self, *args, left=True, right=True, label="10", **kwargs):
         self.left = left
         self.right = right
         self.label = label
@@ -31,8 +32,7 @@ class ITERM(entity.CodedSymbol):
         if self.right:
             base.append(entity.Line(entity.Point(15, 0), entity.Point(20, 0)))
 
-        return base
+        if self.label is not None:
+            base.append(entity.Text(self.label, location=entity.Point(10, -10),size=0.0625))
 
-        # if self.label is not None:
-        #     self.add_text(label, (10, -10),
-        #                   height=10, alignment='MIDDLE_CENTER')
+        return base
