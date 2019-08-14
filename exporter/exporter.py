@@ -6,10 +6,9 @@ from affine import Affine
 class Exporter:
     def __init__(self):
         super().__init__()
+        self.transform = None
 
     def draw(self, ent, transform=None, scale=cfg.UNIT_SCALE):
-        if transform is None:
-            transform = entity.Transform(scale=scale)
         if isinstance(ent, entity.Point):
             self.draw_point(ent, transform=transform)
         elif isinstance(ent, entity.Line):
@@ -22,8 +21,6 @@ class Exporter:
             self.draw_arc(ent, transform=transform, scale=scale)
         elif isinstance(ent, entity.Circle):
             self.draw_circle(ent, transform=transform, scale=scale)
-        elif isinstance(ent, entity.Text):
-            self.draw_text(ent, transform=transform, scale=scale)
         elif isinstance(ent, entity.Group):
             for child in ent.children:
                 self.draw(child, transform=ent.affine() + transform, scale=ent.scale)
@@ -40,9 +37,6 @@ class Exporter:
         raise NotImplementedError()
 
     def draw_circle(self, ent: entity.Circle, transform=None, scale=1):
-        raise NotImplementedError()
-
-    def draw_text(self, ent: entity.Text, transform=None, scale=1):
         raise NotImplementedError()
 
     def draw_arc(self, ent, transform=None, scale=1):

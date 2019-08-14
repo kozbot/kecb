@@ -239,10 +239,10 @@ class Circle(Entity):
         self.radius: float = radius
 
     def calculate_bounds(self):
-        self._bounds = Rect(points=[Point(self.center.x - self.radius, self.center.y + self.radius),
-                                    Point(self.center.x + self.radius, self.center.y + self.radius),
-                                    Point(self.center.x + self.radius, self.center.y - self.radius),
-                                    Point(self.center.x - self.radius, self.center.y - self.radius)])
+        self._bounds = Rect([Point(self.center.x - self.radius, self.center.y + self.radius),
+                             Point(self.center.x + self.radius, self.center.y + self.radius),
+                             Point(self.center.x + self.radius, self.center.y - self.radius),
+                             Point(self.center.x - self.radius, self.center.y - self.radius)])
 
     def translate(self, xoff, yoff):
         self.center.translate(xoff, yoff)
@@ -250,29 +250,6 @@ class Circle(Entity):
 
     def duplicate(self):
         return Circle(center=self.center.duplicate(), radius=self.radius)
-
-
-class Text(Entity):
-    def __init__(self, label: str = None, location: Point = Point(0, 0), size=0.25, alignment="MIDDLE_CENTER"):
-        super().__init__()
-        self.transform = Affine.identity()
-        self.location: Point = location
-        self.label = label
-        self.size = size
-        self.alignment = alignment
-
-    def calculate_bounds(self):
-        self._bounds = Rect(points=[Point(self.location.x - self.size, self.location.y + self.size),
-                                    Point(self.location.x + self.size, self.location.y + self.size),
-                                    Point(self.location.x + self.size, self.location.y - self.size),
-                                    Point(self.location.x - self.size, self.location.y - self.size)])
-
-    def translate(self, xoff, yoff):
-        self.location.translate(xoff, yoff)
-        return self
-
-    def duplicate(self):
-        return Text(location=self.location.duplicate(), label=self.label, size=self.size, alignment=self.alignment)
 
 
 class Group(Entity):
