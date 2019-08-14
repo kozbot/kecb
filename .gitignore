@@ -108,3 +108,9 @@ svg/
 
 # scrap directory
 scrap/
+.idea/workspace.xml
+.idea/vcs.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/kecb.iml
+.idea/encodings.xml
