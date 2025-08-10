@@ -9,8 +9,8 @@ class PB_NO(entity.CodedSymbol):
     def generate(self):
         return [
             ITERM(right=False),
-            entity.Line(start=entity.Point(10, -10), end=entity.Point(50, -10)),
-            entity.Line(start=entity.Point(30, -10), end=entity.Point(30, 10)),
+            entity.Line(start=entity.Point(10, 10), end=entity.Point(50, 10)),
+            entity.Line(start=entity.Point(30, 10), end=entity.Point(30, 25)),
             ITERM(left=False).translate(xoff=40, yoff=0)
         ]
 
